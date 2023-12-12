@@ -33,7 +33,6 @@ const Sidebar = () => {
       <Link href="/" className="self-center">
         <Image src={logoIcon} alt="logo" width={41} height={41} />
       </Link>
-
       <div className="w-full flex flex-col space-y-8">
         {MENULINKS.map(({ icon, to }, index) => (
           <Link
