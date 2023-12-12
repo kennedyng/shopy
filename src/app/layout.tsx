@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter, Quicksand } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
+import ShoppingSidebar from "@/components/ShoppingSidebar";
+import ItemDetailSidebar from "@/components/ItemDetailSidebar";
+import NewItemSidebar from "@/components/NewItemSidebar";
 
 const quickSand = Quicksand({ subsets: ["latin"] });
 
@@ -28,7 +31,6 @@ export default function RootLayout({
               <NewItemSidebar />
             </aside>
           </div>
-          <div className="h-screen overflow-y-auto w-full">{children}</div>
         </div>
       </body>
     </html>
