@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter, Quicksand } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
+import ShoppingSidebar from "@/components/ShoppingSidebar";
+import ItemDetailSidebar from "@/components/ItemDetailSidebar";
+import NewItemSidebar from "@/components/NewItemSidebar";
 
 const quickSand = Quicksand({ subsets: ["latin"] });
 
@@ -20,7 +23,14 @@ export default function RootLayout({
       <body className={quickSand.className}>
         <div className="flex flex-row">
           <Sidebar />
-          <div className="h-screen overflow-y-auto w-full">{children}</div>
+          <div className="h-screen overflow-y-auto w-full flex flex-row">
+            <div className="w-full px-2 py-[37px] md:px-[80px]">{children}</div>
+            <aside className="w-4/5 absolute h-screen top-0 right-0 bg-slate-400 lg:w-[384px] lg:sticky">
+              <ShoppingSidebar />
+              <ItemDetailSidebar />
+              <NewItemSidebar />
+            </aside>
+          </div>
         </div>
       </body>
     </html>
