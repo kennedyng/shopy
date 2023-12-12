@@ -11,12 +11,12 @@ const TopItemsAndCategroies = () => {
           <ItemProgress
             label="bananane"
             indicatorColor="#F9A109"
-            percentage={50}
+            percentage={90}
           />
           <ItemProgress
             label="bananane"
             indicatorColor="#F9A109"
-            percentage={50}
+            percentage={20}
           />
           <ItemProgress
             label="bananane"
