@@ -1,4 +1,5 @@
 import React from "react";
+
 import TopItemsAndCategroies from "./statsComponents/TopItemsAndCategroies";
 import MonthlyLineChart from "./statsComponents/MonthlyLineChart";
 
@@ -12,6 +13,7 @@ const Page = () => {
       <MonthlyLineChart />
     </div>
   );
+
 };
 
 export default Page;
