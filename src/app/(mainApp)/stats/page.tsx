@@ -12,6 +12,4 @@ const Page = () => {
       <MonthlyLineChart />
     </div>
   );
-};
 
-export default Page;
