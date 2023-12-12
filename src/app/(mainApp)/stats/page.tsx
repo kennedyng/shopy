@@ -4,14 +4,14 @@ import TopItemsAndCategroies from "./statsComponents/TopItemsAndCategroies";
 import MonthlyLineChart from "./statsComponents/MonthlyLineChart";
 const ticketsData = [
   ["Month", "items"],
-  ["Jan", 80],
+  ["Jan", 90],
   ["Feb", 110],
   ["Mar", 60],
   ["Apr", 30],
   ["May", 20],
   ["Jun", 30],
   ["Jul", 30],
-  ["Aug", 10],
+  ["Aug", 0],
 ];
 const Page = () => {
   return (

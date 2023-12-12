@@ -31,7 +31,7 @@ export default function RootLayout({
               <div className="w-full px-2 py-[37px] md:px-[80px]">
                 {children}
               </div>
-              <aside className="w-4/5 absolute h-screen top-0 right-0 bg-slate-400 lg:w-[384px] lg:sticky">
+              <aside className="absolute h-screen top-0 right-0 bg-slate-400 lg:w-[384px] lg:sticky">
                 <ShoppingSidebar />
                 <ItemDetailSidebar />
                 <NewItemSidebar />
