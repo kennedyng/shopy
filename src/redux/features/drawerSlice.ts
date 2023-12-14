@@ -29,6 +29,12 @@ export const drawer = createSlice({
       state.newItemDrawerIsOpen = false;
     },
 
+    closeItemDetailsDrawer: (state) => {
+      state.shoppingDrawerIsOpen = true;
+      state.itemDetailsDrawerIsOpen = false;
+      state.newItemDrawerIsOpen = false;
+    },
+
     openNewItemDrawer: (state) => {
       state.shoppingDrawerIsOpen = false;
       state.itemDetailsDrawerIsOpen = false;
@@ -40,6 +46,7 @@ export const drawer = createSlice({
 export const {
   closeAll,
   openItemDetailsDrawer,
+  closeItemDetailsDrawer,
   toggleShoppingDrawer,
   openNewItemDrawer,
 } = drawer.actions;
