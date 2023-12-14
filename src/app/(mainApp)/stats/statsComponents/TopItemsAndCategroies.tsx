@@ -7,7 +7,7 @@ const TopItemsAndCategroies = () => {
       <div>
         <h1 className="font-medium text-2xl mb-[32px]">Top Items</h1>
 
-        <div className="flex flex-col gap-[49px]">
+        <div className="flex flex-col gap-[29px]">
           <ItemProgress
             label="bananane"
             indicatorColor="#F9A109"
@@ -27,7 +27,7 @@ const TopItemsAndCategroies = () => {
       </div>
       <div>
         <h1 className="font-medium text-2xl mb-[32px]">Top Categories</h1>
-        <div className="flex flex-col gap-[49px]">
+        <div className="flex flex-col gap-[29px]">
           <ItemProgress
             label="bananane"
             indicatorColor="#56CCF2"

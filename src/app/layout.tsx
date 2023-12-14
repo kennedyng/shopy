@@ -7,6 +7,7 @@ import ShoppingSidebar from "@/components/ShoppingSidebar";
 import ItemDetailSidebar from "@/components/ItemDetailSidebar";
 import NewItemSidebar from "@/components/NewItemSidebar";
 import { Providers } from "@/redux/provider";
+import Drawers from "@/components/Drawers";
 
 const quickSand = Quicksand({ subsets: ["latin"] });
 
@@ -28,14 +29,10 @@ export default function RootLayout({
           <div className="flex flex-row">
             <Sidebar />
             <div className="h-screen overflow-y-scroll w-full flex flex-row">
-              <div className="w-full px-2 py-[37px] md:px-[80px]">
+              <div className="w-full px-2 py-[37px] md:px-[80px] lg:w-[calc(100%-386px)]">
                 {children}
               </div>
-              <aside className="absolute h-screen top-0 right-0 bg-slate-400 lg:w-[384px] lg:sticky">
-                <ShoppingSidebar />
-                <ItemDetailSidebar />
-                <NewItemSidebar />
-              </aside>
+              <Drawers />
             </div>
           </div>
         </Providers>

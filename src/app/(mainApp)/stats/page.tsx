@@ -15,9 +15,9 @@ const ticketsData = [
 ];
 const Page = () => {
   return (
-    <div className="w-full py-[37px]">
+    <div className="w-full py-[27px]">
       <TopItemsAndCategroies />
-      <h1 className="text-2xl font-medium mt-[65px] mb-[41px]">
+      <h1 className="text-2xl font-medium mt-[65px] mb-[31px]">
         Monthly Summary
       </h1>
       <MonthlyLineChart data={ticketsData} />

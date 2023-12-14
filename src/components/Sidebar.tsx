@@ -8,6 +8,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { logoIcon } from "@/assets";
+import { useAppDispatch } from "@/redux/hooks";
+import { toggleShoppingDrawer } from "@/redux/features/drawerSlice";
 
 const MENULINKS = [
   {
@@ -27,6 +29,10 @@ const MENULINKS = [
 ];
 const Sidebar = () => {
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
+  const handleCartButton = () => {
+    dispatch(toggleShoppingDrawer());
+  };
 
   return (
     <div className="bg-white w-[61px] max-w-[93px] py-[34px] flex flex-col justify-between h-screen">
@@ -49,7 +55,10 @@ const Sidebar = () => {
           </Link>
         ))}
       </div>
-      <button className="relative self-center h-[42px] w-[42px] bg-primary-main flex justify-center items-center rounded-full">
+      <button
+        onClick={handleCartButton}
+        className="relative self-center h-[42px] w-[42px] bg-primary-main flex justify-center items-center rounded-full"
+      >
         <span className="absolute -top-1 -right-1 bg-[#EB5757] text-white rounded-[4px] w-[20px] h-[19px] flex justify-center items-center font-bold">
           3
         </span>

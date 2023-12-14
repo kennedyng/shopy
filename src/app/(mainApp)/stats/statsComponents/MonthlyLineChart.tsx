@@ -4,6 +4,8 @@ import Chart from "react-google-charts";
 
 const options = {
   curveType: "function",
+  backgroundColor: "#fafafe",
+
   legend: { position: "bottom" },
   pointSize: 4,
   chartArea: { right: 4, width: "90%", height: "60%" },
