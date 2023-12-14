@@ -12,9 +12,9 @@ const Drawers = () => {
     useAppSelector((state) => state.drawerReducer);
   return (
     <>
+      <ShoppingSidebar open={shoppingDrawerIsOpen} />
       <ItemDetailSidebar open={itemDetailsDrawerIsOpen} />
       <NewItemSidebar open={newItemDrawerIsOpen} />
-      <ShoppingSidebar open={shoppingDrawerIsOpen} />
     </>
   );
 };

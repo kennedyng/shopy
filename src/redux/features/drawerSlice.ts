@@ -7,7 +7,7 @@ type DrawerState = {
 };
 
 const initialState: DrawerState = {
-  shoppingDrawerIsOpen: false,
+  shoppingDrawerIsOpen: true,
   itemDetailsDrawerIsOpen: false,
   newItemDrawerIsOpen: false,
 };
@@ -31,8 +31,8 @@ export const drawer = createSlice({
 
     openNewItemDrawer: (state) => {
       state.shoppingDrawerIsOpen = false;
-      state.itemDetailsDrawerIsOpen = true;
-      state.newItemDrawerIsOpen = false;
+      state.itemDetailsDrawerIsOpen = false;
+      state.newItemDrawerIsOpen = true;
     },
   },
 });
