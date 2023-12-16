@@ -7,6 +7,8 @@ import BottomSaveToList from "./BottomSaveToList";
 import { useDispatch } from "react-redux";
 import { useAppDispatch } from "@/redux/hooks";
 import { openNewItemDrawer } from "@/redux/features/drawerSlice";
+import { MdEdit } from "react-icons/md";
+import ListItem from "./ListItem";
 interface Props {
   open: boolean | true | false;
 }
@@ -43,13 +45,24 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
         </div>
       </div>
 
-      <div className="mt-[43px] mb-[39px] flex flex-row justify-between">
+      <div className="mt-[43px] mb-[39px] flex flex-row justify-between items-center">
         <h6 className="text-[#34333A] font-bold leading-normal text-lg">
           Shopping List
         </h6>
 
-        <button onClick={handleEditClick}>Ionc</button>
+        <button onClick={handleEditClick} className="hover:text-primary-main">
+          <MdEdit />
+        </button>
       </div>
+
+      <span className="text-[#828282] text-sm font-medium">
+        Fruit and vegetables
+      </span>
+
+      <ul className="flex flex-col py-[25px] gap-[24px]">
+        <ListItem />
+        <ListItem />
+      </ul>
 
       <BottomSaveToList />
     </aside>

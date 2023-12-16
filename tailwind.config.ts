@@ -18,6 +18,8 @@ const config: Config = {
         primary: {
           main: "#F9A109",
         },
+
+        
       },
     },
   },
