@@ -38,7 +38,7 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
           </span>
           <button
             onClick={handleAddNewItemClick}
-            className="rounded-[12px] bg-white h-[40px] w-[120px] shadow-[0px_2px_12px_0px] hover:bg-gray-200"
+            className="rounded-[12px] bg-white h-[40px] w-[120px] custom-shadow hover:bg-gray-200"
           >
             Add item
           </button>

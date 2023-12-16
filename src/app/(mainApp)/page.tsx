@@ -11,7 +11,7 @@ export default function Home() {
           your <br /> shopping list wherever you go
         </h4>
 
-        <div className="rounded-xl shadow-[0px_2px_5px_0] bg-white w-[275px] h-[50px] px-4 py-[13px] gap-[19px] flex flex-row">
+        <div className="rounded-xl custom-shadow bg-white w-[275px] h-[50px] px-4 py-[13px] gap-[19px] flex flex-row">
           <MdSearch className="h-[26px] w-[26px]" />
           <input
             type="search"

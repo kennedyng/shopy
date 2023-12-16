@@ -1,13 +1,10 @@
-import type { Metadata } from "next";
-import { Inter, Quicksand } from "next/font/google";
-import "./globals.css";
 import Sidebar from "@/components/Sidebar";
+import type { Metadata } from "next";
+import { Quicksand } from "next/font/google";
+import "./globals.css";
 
-import ShoppingSidebar from "@/components/ShoppingSidebar";
-import ItemDetailSidebar from "@/components/ItemDetailSidebar";
-import NewItemSidebar from "@/components/NewItemSidebar";
-import { Providers } from "@/redux/provider";
 import Drawers from "@/components/Drawers";
+import { Providers } from "@/redux/provider";
 
 const quickSand = Quicksand({ subsets: ["latin"] });
 
@@ -24,19 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={quickSand.className}>
-        <Providers>
-          <div className="flex flex-row">
-            <Sidebar />
-            <div className="h-screen overflow-y-scroll w-full flex flex-row">
-              <div className="w-full px-2 py-[37px] md:px-[80px] lg:w-[calc(100%-386px)]">
-                {children}
-              </div>
-              <Drawers />
-            </div>
-          </div>
-        </Providers>
-      </body>
+      <body className={quickSand.className}>{children}</body>
     </html>
   );
 }
