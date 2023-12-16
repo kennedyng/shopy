@@ -1,10 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
-import { MdAdd, MdDelete } from "react-icons/md";
-import { InputHTMLAttributes } from "react";
+import React, { FC, useState } from "react";
+import { MdAdd, MdDelete, MdRemove } from "react-icons/md";
 
-const ListItem = () => {
+interface Props {
+  editable?: boolean | true | false;
+}
+
+const ListItem: FC<Props> = ({ editable }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [itemChecked, setItemChecked] = useState<boolean>(false);
 
@@ -21,7 +24,9 @@ const ListItem = () => {
         <input
           onChange={handleOnChange}
           type="checkbox"
-          className="outline-none ring- focus:outline-none focus:ring-0 border-primary-main h-[24px] w-[24px] accent-[#FFF0DE]"
+          className={`outline-none ring- focus:outline-none focus:ring-0 border-primary-main h-[24px] w-[24px] accent-[#FFF0DE] ${
+            editable ? "inline-block" : "hidden"
+          }`}
         />
         <span
           className={`text-sm font-medium ${itemChecked && "line-through"}`}
@@ -29,7 +34,7 @@ const ListItem = () => {
           Acocodo
         </span>
       </div>
-      {isOpen ? (
+      {!isOpen ? (
         <button
           onClick={handleToggle}
           className="border-primary-main border-[2px] rounded-full h-[32px] w-[68px] text-primary-main text-xs"
@@ -43,7 +48,7 @@ const ListItem = () => {
           </button>
           <div className="px-1 flex flex-row gap-2 items-center ">
             <button className="text-primary-main ">
-              <MdAdd />
+              <MdRemove />
             </button>
             <button
               onClick={handleToggle}
@@ -59,6 +64,10 @@ const ListItem = () => {
       )}
     </li>
   );
+};
+
+ListItem.defaultProps = {
+  editable: false,
 };
 
 export default ListItem;
