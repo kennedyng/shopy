@@ -9,18 +9,30 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openNewItemDrawer } from "@/redux/features/drawerSlice";
 import { MdEdit } from "react-icons/md";
 import ListItem from "./ListItem";
+import { decreaseItemPcs, increaseItemPcs } from "@/redux/features/listSlice";
 interface Props {
   open: boolean | true | false;
+}
+
+interface Item {
+  categoryId: string;
+  itemId: string;
 }
 const ShoppingSidebar: FC<Props> = ({ open }) => {
   const dispatch = useAppDispatch();
 
   const list = useAppSelector((state) => state.listReducer.list);
 
-  console.log("list Content", list);
   const handleEditClick = () => {};
   const handleAddNewItemClick = () => {
     dispatch(openNewItemDrawer());
+  };
+
+  const handleIncreaseItemPcs = (data: Item) => {
+    dispatch(increaseItemPcs(data));
+  };
+  const handleDecreamentPcs = (data: Item) => {
+    dispatch(decreaseItemPcs(data));
   };
   return (
     <aside
@@ -74,8 +86,24 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
             {categoryInfo.name}
           </span>
           <ul className="flex flex-col py-[25px] gap-[24px]">
-            {items.map(({ name, id }) => (
-              <ListItem label={name} key={id} />
+            {items.map(({ name, id, pics }) => (
+              <ListItem
+                onAddPress={() =>
+                  handleIncreaseItemPcs({
+                    categoryId: categoryInfo.id,
+                    itemId: id as string,
+                  })
+                }
+                onSubtractPress={() =>
+                  handleDecreamentPcs({
+                    categoryId: categoryInfo.id,
+                    itemId: id as string,
+                  })
+                }
+                pics={pics}
+                label={name}
+                key={id}
+              />
             ))}
           </ul>
         </div>

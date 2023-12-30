@@ -26,6 +26,7 @@ const CategoryItems = () => {
         categoryName: "testing one beands",
         item: {
           name: "adding",
+          pics: 1,
         },
       })
     );

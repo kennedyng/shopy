@@ -3,7 +3,7 @@ import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 type ItemType = {
   id?: string;
   name: string;
-  pics?: number;
+  pics: number;
 };
 
 type ListItemType = {
@@ -38,7 +38,7 @@ export const list = createSlice({
       const newItem: ItemType = {
         id: nanoid(),
         name: action.payload.item.name,
-        pics: 0,
+        pics: action.payload.item.pics,
       };
 
       if (categoryIndex === -1) {
@@ -55,8 +55,41 @@ export const list = createSlice({
       }
     },
 
-    increaseItemPcs: (state, action: PayloadAction<{ itemId: string }>) => {},
-    decreaseItemPcs: (state, action: PayloadAction<{ itemId: string }>) => {},
+    increaseItemPcs: (
+      { list },
+      action: PayloadAction<{ itemId: string; categoryId: string }>
+    ) => {
+      const categoryIndex = list.findIndex(
+        ({ categoryInfo, items }) =>
+          action.payload.categoryId === categoryInfo.id
+      );
+
+      if (categoryIndex !== -1) {
+        const itemIndex = list[categoryIndex].items.findIndex(
+          (item) => item.id === action.payload.itemId
+        );
+
+        list[categoryIndex].items[itemIndex].pics += 1;
+      }
+    },
+    decreaseItemPcs: (
+      { list },
+      action: PayloadAction<{ itemId: string; categoryId: string }>
+    ) => {
+      const categoryIndex = list.findIndex(
+        ({ categoryInfo, items }) =>
+          action.payload.categoryId === categoryInfo.id
+      );
+
+      if (categoryIndex !== -1) {
+        const itemIndex = list[categoryIndex].items.findIndex(
+          (item) => item.id === action.payload.itemId
+        );
+
+        if (list[categoryIndex].items[itemIndex].pics > 0)
+          list[categoryIndex].items[itemIndex].pics -= 1;
+      }
+    },
     deleteItem: (state, action: PayloadAction<{ itemId: string }>) => {},
     swichListStateToEdit: (state) => {},
     swichListStateToActive: (state) => {},

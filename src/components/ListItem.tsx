@@ -6,9 +6,18 @@ import { MdAdd, MdDelete, MdRemove } from "react-icons/md";
 interface Props {
   editable?: boolean | true | false;
   label: string;
+  pics: number | string;
+  onAddPress: () => void;
+  onSubtractPress: () => void;
 }
 
-const ListItem: FC<Props> = ({ editable, label }) => {
+const ListItem: FC<Props> = ({
+  editable = false,
+  label,
+  pics,
+  onAddPress,
+  onSubtractPress,
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [itemChecked, setItemChecked] = useState<boolean>(false);
 
@@ -18,6 +27,13 @@ const ListItem: FC<Props> = ({ editable, label }) => {
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItemChecked(e.target.checked);
+  };
+
+  const handleIncreament = () => {
+    onAddPress();
+  };
+  const handleDecreament = () => {
+    onSubtractPress();
   };
   return (
     <li className="flex flex-row gap-2 justify-between items-center duration-300">
@@ -40,7 +56,7 @@ const ListItem: FC<Props> = ({ editable, label }) => {
           onClick={handleToggle}
           className="border-primary-main border-[2px] rounded-full h-[32px] w-[68px] text-primary-main text-xs"
         >
-          3 pics
+          {pics}
         </button>
       ) : (
         <div className="bg-white rounded-xl w-[173px] h-[44px] flex flex-row justify-between gap-2 items-center">
@@ -48,16 +64,16 @@ const ListItem: FC<Props> = ({ editable, label }) => {
             <MdDelete className="text-white" />
           </button>
           <div className="px-1 flex flex-row gap-2 items-center ">
-            <button className="text-primary-main ">
+            <button onClick={handleDecreament} className="text-primary-main ">
               <MdRemove />
             </button>
             <button
               onClick={handleToggle}
               className="border-primary-main border-2 rounded-full w-[68px] h-[32px] text-primary-main hover:bg-red-500 hover:text-white"
             >
-              3 pic
+              {pics}
             </button>
-            <button className="text-primary-main">
+            <button onClick={handleIncreament} className="text-primary-main">
               <MdAdd />
             </button>
           </div>
@@ -65,10 +81,6 @@ const ListItem: FC<Props> = ({ editable, label }) => {
       )}
     </li>
   );
-};
-
-ListItem.defaultProps = {
-  editable: false,
 };
 
 export default ListItem;
