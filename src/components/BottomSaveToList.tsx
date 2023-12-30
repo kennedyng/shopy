@@ -7,6 +7,8 @@ const BottomSaveToList = () => {
   const { isActive } = useAppSelector((state) => state.listReducer);
   const dispatch = useAppDispatch();
 
+  const list = useAppSelector((state) => state.listReducer.list);
+
   const [name, setName] = useState<string>("");
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -20,15 +22,29 @@ const BottomSaveToList = () => {
     }
   };
 
+  const handleCancel = () => {
+    alert(JSON.stringify(list));
+  };
+
+  const handleComplete = () => {
+    alert(JSON.stringify(list));
+  };
+
   if (isActive) {
     return (
       <>
         <div className="absolute bottom-0 left-0 bg-white w-full h-[120px] flex justify-center items-center px-[39px]">
           <div className="flex flex-row gap-[39px]">
-            <button className="text-base font-bold text-[#34333A]">
+            <button
+              onClick={handleCancel}
+              className="text-base font-bold text-[#34333A]"
+            >
               cancel
             </button>
-            <button className="bg-[#56CCF2] text-base text-white h-[61px] w-[87px] rounded-[12px] text-md font-bold hover:bg-yellow-400  ">
+            <button
+              onClick={handleComplete}
+              className="bg-[#56CCF2] text-base text-white h-[61px] w-[87px] rounded-[12px] text-md font-bold hover:bg-yellow-400  "
+            >
               Complete
             </button>
           </div>
