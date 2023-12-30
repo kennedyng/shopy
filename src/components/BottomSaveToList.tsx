@@ -2,6 +2,7 @@ import React, { ChangeEvent, HtmlHTMLAttributes, useState } from "react";
 import Input from "./ui/Input";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setListName, toggleActive } from "@/redux/features/listSlice";
+import { toast } from "react-toastify";
 
 const BottomSaveToList = () => {
   const { isActive } = useAppSelector((state) => state.listReducer);
@@ -15,9 +16,12 @@ const BottomSaveToList = () => {
   };
 
   const handleSaveList = () => {
-    dispatch(toggleActive());
+    if (!name) {
+      toast.warn("provide name list");
+    }
 
     if (name !== "") {
+      dispatch(toggleActive());
       dispatch(setListName({ listName: name }));
     }
   };
@@ -28,6 +32,7 @@ const BottomSaveToList = () => {
 
   const handleComplete = () => {
     alert(JSON.stringify(list));
+    toast.info("working");
   };
 
   if (isActive) {
