@@ -1,51 +1,70 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
-export type ItemType = {
-  id: string;
-  itemLabel: string;
-  pcs: number;
+type ItemType = {
+  id?: string;
+  name: string;
+  pics?: number;
 };
 
-export type ListType = {
-  id: string;
-  categoryName: string;
+type ListItemType = {
+  categoryInfo: {
+    id: string;
+    name: string;
+  };
   items: ItemType[];
 };
 
-type listState = {
-  listState: "edit" | "acitve";
-  shoppingList: ListType[];
+type StateType = {
+  list: ListItemType[];
+};
+const initialState: StateType = {
+  list: [],
 };
 
-const initialState = {
-  listState: "acitve",
-  shoppingList: [],
-} as listState;
-
+interface AddItemPayload {
+  categoryId: string;
+  categoryName: string;
+  item: ItemType;
+}
 export const list = createSlice({
   name: "list",
   initialState,
   reducers: {
-    addItemList: (state, action: PayloadAction<{ categoryName: string }>) => {
-      const elementAt = state.shoppingList.findIndex(
-        ({ categoryName }) => categoryName === action.payload.categoryName
+    addItemToCategory: ({ list }, action: PayloadAction<AddItemPayload>) => {
+      const categoryIndex = list.findIndex(
+        ({ categoryInfo }) => action.payload.categoryId === categoryInfo.id
       );
+
+      const newItem: ItemType = {
+        id: nanoid(),
+        name: action.payload.item.name,
+        pics: 0,
+      };
+
+      if (categoryIndex === -1) {
+        list.push({
+          categoryInfo: {
+            id: action.payload.categoryId,
+            name: action.payload.categoryName,
+          },
+
+          items: [newItem],
+        });
+      } else {
+        list[categoryIndex].items.push(newItem);
+      }
     },
 
     increaseItemPcs: (state, action: PayloadAction<{ itemId: string }>) => {},
     decreaseItemPcs: (state, action: PayloadAction<{ itemId: string }>) => {},
     deleteItem: (state, action: PayloadAction<{ itemId: string }>) => {},
-    swichListStateToEdit: (state) => {
-      state.listState = "edit";
-    },
-    swichListStateToActive: (state) => {
-      state.listState = "acitve";
-    },
+    swichListStateToEdit: (state) => {},
+    swichListStateToActive: (state) => {},
   },
 });
 
 export const {
-  addItemList,
+  addItemToCategory,
   increaseItemPcs,
   decreaseItemPcs,
   deleteItem,

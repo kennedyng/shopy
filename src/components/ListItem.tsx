@@ -5,9 +5,10 @@ import { MdAdd, MdDelete, MdRemove } from "react-icons/md";
 
 interface Props {
   editable?: boolean | true | false;
+  label: string;
 }
 
-const ListItem: FC<Props> = ({ editable }) => {
+const ListItem: FC<Props> = ({ editable, label }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [itemChecked, setItemChecked] = useState<boolean>(false);
 
@@ -31,7 +32,7 @@ const ListItem: FC<Props> = ({ editable }) => {
         <span
           className={`text-sm font-medium ${itemChecked && "line-through"}`}
         >
-          Acocodo
+          {label}
         </span>
       </div>
       {!isOpen ? (

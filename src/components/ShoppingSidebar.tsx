@@ -5,7 +5,7 @@ import Image from "next/image";
 import React, { FC } from "react";
 import BottomSaveToList from "./BottomSaveToList";
 import { useDispatch } from "react-redux";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openNewItemDrawer } from "@/redux/features/drawerSlice";
 import { MdEdit } from "react-icons/md";
 import ListItem from "./ListItem";
@@ -14,6 +14,10 @@ interface Props {
 }
 const ShoppingSidebar: FC<Props> = ({ open }) => {
   const dispatch = useAppDispatch();
+
+  const list = useAppSelector((state) => state.listReducer.list);
+
+  console.log("list Content", list);
   const handleEditClick = () => {};
   const handleAddNewItemClick = () => {
     dispatch(openNewItemDrawer());
@@ -22,7 +26,7 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
     <aside
       className={`${
         open ? "translate-x-0" : "translate-x-full"
-      } fixed  w-[calc(100%-61px)] h-screen top-0 right-0 bg-[#FFF0DE;] lg:w-[389px] py-[43px] px-[48px] duration-200`}
+      } fixed  w-[calc(100%-61px)] h-screen top-0 right-0 bg-[#FFF0DE;] lg:w-[389px] py-[43px] px-[48px] duration-200 `}
     >
       <div className="w-[308px] h-[129px] relative rounded-[24px] bg-[#80485B]">
         <Image
@@ -55,14 +59,27 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
         </button>
       </div>
 
-      <span className="text-[#828282] text-sm font-medium">
+      {/* <span className="text-[#828282] text-sm font-medium">
         Fruit and vegetables
       </span>
 
       <ul className="flex flex-col py-[25px] gap-[24px]">
         <ListItem />
         <ListItem />
-      </ul>
+      </ul> */}
+
+      {list.map(({ categoryInfo, items }) => (
+        <div key={categoryInfo.id}>
+          <span className="text-[#828282] text-sm font-medium">
+            {categoryInfo.name}
+          </span>
+          <ul className="flex flex-col py-[25px] gap-[24px]">
+            {items.map(({ name, id }) => (
+              <ListItem label={name} key={id} />
+            ))}
+          </ul>
+        </div>
+      ))}
 
       <BottomSaveToList />
     </aside>
