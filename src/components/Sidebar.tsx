@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { MdShoppingCart } from "react-icons/md";
 import { GoGraph } from "react-icons/go";
 import { FaHistory } from "react-icons/fa";
@@ -35,10 +35,14 @@ const Sidebar = () => {
   };
 
   const list = useAppSelector((state) => state.listReducer.list);
-  const totalItems = list.reduce((accumulator, currentValue) => {
-    return accumulator + currentValue.items.length;
-  }, 0);
 
+  const totalItems = useMemo(
+    () =>
+      list.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue.items.length;
+      }, 0),
+    [list]
+  );
   return (
     <div className="bg-white w-[61px] max-w-[93px] py-[34px] flex flex-col justify-between h-screen">
       <Link href="/" className="self-center">
