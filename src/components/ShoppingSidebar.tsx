@@ -13,6 +13,7 @@ import {
   decreaseItemPcs,
   deleteItem,
   increaseItemPcs,
+  toggleEdit,
 } from "@/redux/features/listSlice";
 interface Props {
   open: boolean | true | false;
@@ -24,10 +25,15 @@ interface Item {
 }
 const ShoppingSidebar: FC<Props> = ({ open }) => {
   const dispatch = useAppDispatch();
+  const {
+    list,
+    isEdit: isEditable,
+    name,
+  } = useAppSelector((state) => state.listReducer);
 
-  const list = useAppSelector((state) => state.listReducer.list);
-
-  const handleEditClick = () => {};
+  const handleEditClick = () => {
+    dispatch(toggleEdit());
+  };
   const handleAddNewItemClick = () => {
     dispatch(openNewItemDrawer());
   };
@@ -42,6 +48,67 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
   const handleDeleteItem = (data: Item) => {
     dispatch(deleteItem(data));
   };
+
+  let listContent = null;
+
+  if (!name) {
+    listContent = <div>Nothing </div>;
+  }
+
+  if (name) {
+    listContent = (
+      <div>
+        <div className="mt-[43px] mb-[39px] flex flex-row justify-between items-center">
+          <h6 className="text-[#34333A] font-bold leading-normal text-lg">
+            {name}
+          </h6>
+
+          <button
+            onClick={handleEditClick}
+            className={`${isEditable ? "text-primary-main" : ""}`}
+          >
+            <MdEdit />
+          </button>
+        </div>
+        {list.map(({ categoryInfo, items }) => (
+          <div key={categoryInfo.id}>
+            <span className="text-[#828282] text-sm font-medium">
+              {categoryInfo.name}
+            </span>
+            <ul className="flex flex-col py-[25px] gap-[24px]">
+              {items.map(({ name, id, pics }) => (
+                <ListItem
+                  key={id}
+                  editable={isEditable}
+                  pics={pics}
+                  label={name}
+                  onAddPress={() =>
+                    handleIncreaseItemPcs({
+                      categoryId: categoryInfo.id,
+                      itemId: id as string,
+                    })
+                  }
+                  onSubtractPress={() =>
+                    handleDecreamentPcs({
+                      categoryId: categoryInfo.id,
+                      itemId: id as string,
+                    })
+                  }
+                  onDelete={() =>
+                    handleDeleteItem({
+                      categoryId: categoryInfo.id,
+                      itemId: id as string,
+                    })
+                  }
+                />
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <aside
       className={`${
@@ -69,49 +136,7 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
         </div>
       </div>
 
-      <div className="mt-[43px] mb-[39px] flex flex-row justify-between items-center">
-        <h6 className="text-[#34333A] font-bold leading-normal text-lg">
-          Shopping List
-        </h6>
-
-        <button onClick={handleEditClick} className="hover:text-primary-main">
-          <MdEdit />
-        </button>
-      </div>
-      {list.map(({ categoryInfo, items }) => (
-        <div key={categoryInfo.id}>
-          <span className="text-[#828282] text-sm font-medium">
-            {categoryInfo.name}
-          </span>
-          <ul className="flex flex-col py-[25px] gap-[24px]">
-            {items.map(({ name, id, pics }) => (
-              <ListItem
-                onAddPress={() =>
-                  handleIncreaseItemPcs({
-                    categoryId: categoryInfo.id,
-                    itemId: id as string,
-                  })
-                }
-                onSubtractPress={() =>
-                  handleDecreamentPcs({
-                    categoryId: categoryInfo.id,
-                    itemId: id as string,
-                  })
-                }
-                onDelete={() =>
-                  handleDeleteItem({
-                    categoryId: categoryInfo.id,
-                    itemId: id as string,
-                  })
-                }
-                pics={pics}
-                label={name}
-                key={id}
-              />
-            ))}
-          </ul>
-        </div>
-      ))}
+      {listContent}
 
       <BottomSaveToList />
     </aside>

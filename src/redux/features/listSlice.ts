@@ -15,9 +15,15 @@ type ListItemType = {
 };
 
 type StateType = {
+  name: string;
+  isEdit: boolean;
+  isActive: boolean;
   list: ListItemType[];
 };
 const initialState: StateType = {
+  name: "",
+  isEdit: false,
+  isActive: false,
   list: [],
 };
 
@@ -30,28 +36,33 @@ export const list = createSlice({
   name: "list",
   initialState,
   reducers: {
-    addItemToCategory: ({ list }, action: PayloadAction<AddItemPayload>) => {
-      const categoryIndex = list.findIndex(
-        ({ categoryInfo }) => action.payload.categoryId === categoryInfo.id
-      );
+    addItemToCategory: (
+      { list, isActive },
+      action: PayloadAction<AddItemPayload>
+    ) => {
+      if (isActive) {
+        const categoryIndex = list.findIndex(
+          ({ categoryInfo }) => action.payload.categoryId === categoryInfo.id
+        );
 
-      const newItem: ItemType = {
-        id: nanoid(),
-        name: action.payload.item.name,
-        pics: action.payload.item.pics,
-      };
+        const newItem: ItemType = {
+          id: nanoid(),
+          name: action.payload.item.name,
+          pics: action.payload.item.pics,
+        };
 
-      if (categoryIndex === -1) {
-        list.push({
-          categoryInfo: {
-            id: action.payload.categoryId,
-            name: action.payload.categoryName,
-          },
+        if (categoryIndex === -1) {
+          list.push({
+            categoryInfo: {
+              id: action.payload.categoryId,
+              name: action.payload.categoryName,
+            },
 
-          items: [newItem],
-        });
-      } else {
-        list[categoryIndex].items.push(newItem);
+            items: [newItem],
+          });
+        } else {
+          list[categoryIndex].items.push(newItem);
+        }
       }
     },
 
@@ -110,8 +121,18 @@ export const list = createSlice({
         }
       }
     },
-    swichListStateToEdit: (state) => {},
-    swichListStateToActive: (state) => {},
+
+    toggleEdit: (state) => {
+      state.isEdit = !state.isEdit;
+    },
+
+    toggleActive: (state) => {
+      state.isActive = !state.isActive;
+    },
+
+    setListName: (state, action: PayloadAction<{ listName: string }>) => {
+      state.name = action.payload.listName;
+    },
   },
 });
 
@@ -120,7 +141,9 @@ export const {
   increaseItemPcs,
   decreaseItemPcs,
   deleteItem,
-  swichListStateToActive,
-  swichListStateToEdit,
+
+  toggleEdit,
+  toggleActive,
+  setListName,
 } = list.actions;
 export default list.reducer;
