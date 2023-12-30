@@ -8,7 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { logoIcon } from "@/assets";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toggleShoppingDrawer } from "@/redux/features/drawerSlice";
 
 const MENULINKS = [
@@ -33,6 +33,11 @@ const Sidebar = () => {
   const handleCartButton = () => {
     dispatch(toggleShoppingDrawer());
   };
+
+  const list = useAppSelector((state) => state.listReducer.list);
+  const totalItems = list.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue.items.length;
+  }, 0);
 
   return (
     <div className="bg-white w-[61px] max-w-[93px] py-[34px] flex flex-col justify-between h-screen">
@@ -60,7 +65,7 @@ const Sidebar = () => {
         className="relative self-center h-[42px] w-[42px] bg-primary-main flex justify-center items-center rounded-full"
       >
         <span className="absolute -top-1 -right-1 bg-[#EB5757] text-white rounded-[4px] w-[20px] h-[19px] flex justify-center items-center font-bold">
-          3
+          {totalItems}
         </span>
         <MdShoppingCart className="h-[20px] w-[20px] text-white " />
       </button>

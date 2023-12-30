@@ -9,6 +9,7 @@ interface Props {
   pics: number | string;
   onAddPress: () => void;
   onSubtractPress: () => void;
+  onDelete: () => void;
 }
 
 const ListItem: FC<Props> = ({
@@ -17,6 +18,7 @@ const ListItem: FC<Props> = ({
   pics,
   onAddPress,
   onSubtractPress,
+  onDelete,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [itemChecked, setItemChecked] = useState<boolean>(false);
@@ -34,6 +36,10 @@ const ListItem: FC<Props> = ({
   };
   const handleDecreament = () => {
     onSubtractPress();
+  };
+
+  const handleDelete = () => {
+    onDelete();
   };
   return (
     <li className="flex flex-row gap-2 justify-between items-center duration-300">
@@ -60,7 +66,10 @@ const ListItem: FC<Props> = ({
         </button>
       ) : (
         <div className="bg-white rounded-xl w-[173px] h-[44px] flex flex-row justify-between gap-2 items-center">
-          <button className="bg-primary-main h-full px-[9px] rounded-xl">
+          <button
+            onClick={handleDelete}
+            className="bg-primary-main h-full px-[9px] rounded-xl"
+          >
             <MdDelete className="text-white" />
           </button>
           <div className="px-1 flex flex-row gap-2 items-center ">

@@ -77,8 +77,7 @@ export const list = createSlice({
       action: PayloadAction<{ itemId: string; categoryId: string }>
     ) => {
       const categoryIndex = list.findIndex(
-        ({ categoryInfo, items }) =>
-          action.payload.categoryId === categoryInfo.id
+        ({ categoryInfo }) => action.payload.categoryId === categoryInfo.id
       );
 
       if (categoryIndex !== -1) {
@@ -90,7 +89,27 @@ export const list = createSlice({
           list[categoryIndex].items[itemIndex].pics -= 1;
       }
     },
-    deleteItem: (state, action: PayloadAction<{ itemId: string }>) => {},
+    deleteItem: (
+      { list },
+      action: PayloadAction<{ itemId: string; categoryId: string }>
+    ) => {
+      const categoryIndex = list.findIndex(
+        ({ categoryInfo, items }) =>
+          action.payload.categoryId === categoryInfo.id
+      );
+
+      if (categoryIndex !== -1) {
+        const itemIndex = list[categoryIndex].items.findIndex(
+          (item) => item.id === action.payload.itemId
+        );
+
+        list[categoryIndex].items.splice(itemIndex, 1);
+
+        if (list[categoryIndex].items.length === 0) {
+          list.splice(categoryIndex, 1);
+        }
+      }
+    },
     swichListStateToEdit: (state) => {},
     swichListStateToActive: (state) => {},
   },

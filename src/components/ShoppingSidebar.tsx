@@ -9,7 +9,11 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openNewItemDrawer } from "@/redux/features/drawerSlice";
 import { MdEdit } from "react-icons/md";
 import ListItem from "./ListItem";
-import { decreaseItemPcs, increaseItemPcs } from "@/redux/features/listSlice";
+import {
+  decreaseItemPcs,
+  deleteItem,
+  increaseItemPcs,
+} from "@/redux/features/listSlice";
 interface Props {
   open: boolean | true | false;
 }
@@ -33,6 +37,10 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
   };
   const handleDecreamentPcs = (data: Item) => {
     dispatch(decreaseItemPcs(data));
+  };
+
+  const handleDeleteItem = (data: Item) => {
+    dispatch(deleteItem(data));
   };
   return (
     <aside
@@ -96,6 +104,12 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
                 }
                 onSubtractPress={() =>
                   handleDecreamentPcs({
+                    categoryId: categoryInfo.id,
+                    itemId: id as string,
+                  })
+                }
+                onDelete={() =>
+                  handleDeleteItem({
                     categoryId: categoryInfo.id,
                     itemId: id as string,
                   })

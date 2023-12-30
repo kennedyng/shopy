@@ -22,7 +22,7 @@ const CategoryItems = () => {
 
     dispatch(
       addItemToCategory({
-        categoryId: "4PqlIjxjDeI1yrPB6uKmdd",
+        categoryId: "4PqlIjxjDeI1yrPB6uKmfdd",
         categoryName: "testing one beands",
         item: {
           name: "adding",
