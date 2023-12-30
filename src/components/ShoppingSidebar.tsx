@@ -78,16 +78,6 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
           <MdEdit />
         </button>
       </div>
-
-      {/* <span className="text-[#828282] text-sm font-medium">
-        Fruit and vegetables
-      </span>
-
-      <ul className="flex flex-col py-[25px] gap-[24px]">
-        <ListItem />
-        <ListItem />
-      </ul> */}
-
       {list.map(({ categoryInfo, items }) => (
         <div key={categoryInfo.id}>
           <span className="text-[#828282] text-sm font-medium">
