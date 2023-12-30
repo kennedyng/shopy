@@ -10,6 +10,7 @@ interface Props {
   onAddPress: () => void;
   onSubtractPress: () => void;
   onDelete: () => void;
+  onChange: (value: boolean) => void;
 }
 
 const ListItem: FC<Props> = ({
@@ -19,6 +20,7 @@ const ListItem: FC<Props> = ({
   onAddPress,
   onSubtractPress,
   onDelete,
+  onChange,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [itemChecked, setItemChecked] = useState<boolean>(false);
@@ -29,6 +31,7 @@ const ListItem: FC<Props> = ({
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItemChecked(e.target.checked);
+    onChange(e.target.checked);
   };
 
   const handleIncreament = () => {

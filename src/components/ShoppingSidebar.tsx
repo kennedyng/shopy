@@ -10,6 +10,7 @@ import { openNewItemDrawer } from "@/redux/features/drawerSlice";
 import { MdEdit } from "react-icons/md";
 import ListItem from "./ListItem";
 import {
+  cancelleItem,
   decreaseItemPcs,
   deleteItem,
   increaseItemPcs,
@@ -49,6 +50,10 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
     dispatch(deleteItem(data));
   };
 
+  const handleItemChecked = (isChecked: boolean, data: Item) => {
+    dispatch(cancelleItem({ ...data, isChecked }));
+  };
+
   let listContent = null;
 
   if (!name) {
@@ -82,6 +87,12 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
                   editable={isEditable}
                   pics={pics}
                   label={name}
+                  onChange={(isChecked) =>
+                    handleItemChecked(isChecked, {
+                      categoryId: categoryInfo.id,
+                      itemId: id as string,
+                    })
+                  }
                   onAddPress={() =>
                     handleIncreaseItemPcs({
                       categoryId: categoryInfo.id,

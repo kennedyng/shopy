@@ -4,6 +4,7 @@ type ItemType = {
   id?: string;
   name: string;
   pics: number;
+  isCancelled: boolean;
 };
 
 type ListItemType = {
@@ -49,6 +50,7 @@ export const list = createSlice({
           id: nanoid(),
           name: action.payload.item.name,
           pics: action.payload.item.pics,
+          isCancelled: false,
         };
 
         if (categoryIndex === -1) {
@@ -122,6 +124,29 @@ export const list = createSlice({
       }
     },
 
+    cancelleItem: (
+      { list },
+      action: PayloadAction<{
+        itemId: string;
+        categoryId: string;
+        isChecked: boolean;
+      }>
+    ) => {
+      const categoryIndex = list.findIndex(
+        ({ categoryInfo, items }) =>
+          action.payload.categoryId === categoryInfo.id
+      );
+
+      if (categoryIndex !== -1) {
+        const itemIndex = list[categoryIndex].items.findIndex(
+          (item) => item.id === action.payload.itemId
+        );
+
+        list[categoryIndex].items[itemIndex].isCancelled =
+          action.payload.isChecked;
+      }
+    },
+
     toggleEdit: (state) => {
       state.isEdit = !state.isEdit;
     },
@@ -141,6 +166,7 @@ export const {
   increaseItemPcs,
   decreaseItemPcs,
   deleteItem,
+  cancelleItem,
 
   toggleEdit,
   toggleActive,

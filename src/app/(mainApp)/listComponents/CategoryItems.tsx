@@ -27,6 +27,7 @@ const CategoryItems = () => {
         item: {
           name: "adding",
           pics: 1,
+          isCancelled: false,
         },
       })
     );
