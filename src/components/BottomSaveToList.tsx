@@ -17,7 +17,7 @@ const BottomSaveToList = () => {
 
   const handleSaveList = () => {
     if (!name) {
-      toast.warn("provide name list");
+      toast.warn("No Active List");
     }
 
     if (name !== "") {

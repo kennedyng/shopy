@@ -1,6 +1,6 @@
 "use client";
 
-import { sourceIcon } from "@/assets";
+import { shoppingIcon, sourceIcon } from "@/assets";
 import Image from "next/image";
 import React, { FC } from "react";
 import BottomSaveToList from "./BottomSaveToList";
@@ -57,7 +57,16 @@ const ShoppingSidebar: FC<Props> = ({ open }) => {
   let listContent = null;
 
   if (!name) {
-    listContent = <div>Nothing </div>;
+    listContent = (
+      <div className="h-[calc(100%-205px)] w-full flex flex-col items-center justify-end">
+        <div className="flex flex-col gap-10">
+          <h1 className="text-center text-[#34333A] text-[26px] font-bold">
+            No items
+          </h1>
+          <Image src={shoppingIcon} alt="" width={243} height={203} />
+        </div>
+      </div>
+    );
   }
 
   if (name) {
