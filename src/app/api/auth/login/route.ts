@@ -15,20 +15,14 @@ export async function POST(req: Request) {
   }
 
   if (userExists.password === body.password) {
-    const accessToken = jwt.sign(
-      {
-        data: "foobar",
-      },
-      "secret",
-      { expiresIn: 60 * 60 }
-    );
-    return NextResponse.json({ token: accessToken, email: userExists.email });
+    const accessToken = jwt.sign(userExists, process.env.JWT_SECRET as string, {
+      expiresIn: 60 * 60,
+    });
+    return NextResponse.json({
+      token: accessToken,
+      email: userExists.email,
+      id: userExists.id,
+    });
   }
-
-  return NextResponse.json(
-    { message: "something went wrong" },
-    {
-      status: 500,
-    }
-  );
+  return NextResponse.json({ message: "Auth Failed" }, { status: 401 });
 }
