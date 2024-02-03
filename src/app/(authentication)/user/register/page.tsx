@@ -1,5 +1,3 @@
-"use client";
-
 import RegsiterForm from "./registerComponents/registerForm";
 
 const RegisterPage = () => {

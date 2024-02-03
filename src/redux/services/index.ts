@@ -7,6 +7,7 @@ const baseUrl = process.env.NODE_ENV
 export const pokemonApi = createApi({
   reducerPath: "appApi",
   baseQuery: fetchBaseQuery({ baseUrl }),
+
   endpoints: (builder) => ({
     getPokemonByName: builder.query<any, string>({
       query: (name) => `pokemon/${name}`,
