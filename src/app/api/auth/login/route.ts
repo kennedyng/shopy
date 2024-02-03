@@ -1,5 +1,6 @@
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -14,6 +15,20 @@ export async function POST(req: Request) {
   }
 
   if (userExists.password === body.password) {
-    return NextResponse.json({ token: "test" });
+    const accessToken = jwt.sign(
+      {
+        data: "foobar",
+      },
+      "secret",
+      { expiresIn: 60 * 60 }
+    );
+    return NextResponse.json({ token: accessToken, email: userExists.email });
   }
+
+  return NextResponse.json(
+    { message: "something went wrong" },
+    {
+      status: 500,
+    }
+  );
 }
