@@ -39,7 +39,13 @@ const RegsiterForm = () => {
   const { trigger, isMutating, data, error } = useRegister();
 
   function onSubmit({ email, password }: z.infer<typeof FormSchema>) {
-    trigger({ email, password });
+    trigger(
+      { email, password },
+      {
+        onSuccess: () => alert("created"),
+        onError: () => alert("failed"),
+      }
+    );
   }
   return (
     <div className=" flex  flex-col gap-2 bg-white shadow-lg w-full md:w-[450px] rounded-md top p-10">
