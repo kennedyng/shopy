@@ -1,5 +1,6 @@
 "use client";
 import { logoIcon } from "@/assets";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import Image from "next/image";
@@ -60,12 +61,12 @@ const Page = () => {
             })}
           />
 
-          <button
+          <Button
             type="submit"
-            className="bg-yellow rounded-md text-black py-2 px-8 font-bold w-full"
+            className="bg-primary-main rounded-md text-white py-2 px-8 font-bold w-full"
           >
             Login
-          </button>
+          </Button>
 
           <div className="flex flex-row items-center gap-4 my-4">
             <hr className="w-full" />
