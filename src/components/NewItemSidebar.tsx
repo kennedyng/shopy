@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import Input from "./ui/Input";
-import TextArea from "./ui/TextArea";
+import Input from "./reusable/Input";
+import TextArea from "./reusable/TextArea";
 interface Props {
   open: boolean | true | false;
 }

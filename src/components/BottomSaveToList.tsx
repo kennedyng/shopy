@@ -1,5 +1,5 @@
 import React, { ChangeEvent, HtmlHTMLAttributes, useState } from "react";
-import Input from "./ui/Input";
+import Input from "./reusable/Input";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setListName, toggleActive } from "@/redux/features/listSlice";
 import { toast } from "react-toastify";

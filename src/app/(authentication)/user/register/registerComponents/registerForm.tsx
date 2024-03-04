@@ -2,7 +2,7 @@
 
 import React from "react";
 import { logoIcon } from "@/assets";
-import Input from "@/components/ui/Input";
+import Input from "@/components/reusable/Input";
 import Image from "next/image";
 import Link from "next/link";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";

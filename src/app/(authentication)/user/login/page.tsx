@@ -1,11 +1,26 @@
 "use client";
 import { logoIcon } from "@/assets";
-import Input from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+
+interface FormValues {
+  email: string;
+  password: string;
+}
 
 const Page = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+  };
   return (
     <main className="flex items-center justify-center min-h-screen bg-yellow bg-opacity-20 p-4">
       <div className=" flex  flex-col gap-2 bg-white shadow-lg w-full md:w-[450px] rounded-md top p-10">
@@ -21,12 +36,33 @@ const Page = () => {
         </div>
         <p className="text-black  text-center ">Create new account</p>
 
-        <form className="flex flex-col gap-2">
-          <Input type="text" placeholder="email" />
-          <Input type="password" placeholder="password" />
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+          <Input
+            type="email"
+            placeholder="Enter your email"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "Invalid email address",
+              },
+            })}
+          />
+          <Input
+            type="password"
+            placeholder="Enter your password"
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters long",
+              },
+            })}
+          />
+
           <button
             type="submit"
-            className="bg-yellow rounded-md text-white py-2 px-8 font-bold w-full"
+            className="bg-yellow rounded-md text-black py-2 px-8 font-bold w-full"
           >
             Login
           </button>

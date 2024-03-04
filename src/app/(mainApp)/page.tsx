@@ -1,4 +1,4 @@
-import Input from "@/components/ui/Input";
+import Input from "@/components/reusable/Input";
 import Image from "next/image";
 import { MdSearch } from "react-icons/md";
 import CategoryItems from "./listComponents/CategoryItems";
