@@ -17,6 +17,15 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 const MENULINKS = [
   {
     icon: (
@@ -51,9 +60,20 @@ const Sidebar = () => {
   );
   return (
     <div className="bg-white w-[61px] max-w-[93px] py-[34px] flex flex-col justify-between h-screen">
-      <Link href="/" className="self-center">
-        <Image src={logoIcon} alt="logo" width={41} height={41} />
-      </Link>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Link href="/" className="self-center">
+            <Image src={logoIcon} alt="logo" width={41} height={41} />
+          </Link>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          <DropdownMenuLabel>Options</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Logout</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
       <div className="w-full flex flex-col space-y-8">
         {MENULINKS.map(({ icon, to }, index) => (
           <Link
@@ -83,7 +103,7 @@ const Sidebar = () => {
             <MdShoppingCart className="h-[20px] w-[20px] text-white " />
           </button>
         </HoverCardTrigger>
-        <HoverCardContent>
+        <HoverCardContent align="start">
           <p>Cart Summary:</p>
           {list.map(({ categoryInfo }) => (
             <p key={categoryInfo.id} className="text-sm">
