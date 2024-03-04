@@ -5,28 +5,38 @@ import Input from "@/components/reusable/Input";
 import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-interface IFormInputs {
-  email: string;
-  password: string;
-}
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+
+const FormSchema = z.object({
+  email: z.string({ required_error: "email is required" }).email(),
+  password: z.string().min(8, {
+    message: "Username must be at least 8 characters.",
+  }),
+});
 const RegsiterForm = () => {
-  const {
-    handleSubmit,
-    control,
-    reset,
-    register,
-    formState: { errors },
-  } = useForm<IFormInputs>({
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: IFormInputs) => {
+  function onSubmit(data: z.infer<typeof FormSchema>) {
     alert(JSON.stringify(data));
-  };
+  }
   return (
     <div className=" flex  flex-col gap-2 bg-white shadow-lg w-full md:w-[450px] rounded-md top p-10">
       <div className="flex flex-row justify-center gap-[2px] items-baseline">
@@ -40,38 +50,50 @@ const RegsiterForm = () => {
         />
       </div>
       <p className="text-black  text-center ">Create new account</p>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <Input
-          type="email"
-          placeholder="Enter your email"
-          {...register("email", {
-            required: "Email is required",
-            pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: "Invalid email address",
-            },
-          })}
-        />
-        <Input
-          type="password"
-          placeholder="Enter your password"
-          {...register("password", {
-            required: "Password is required",
-            minLength: {
-              value: 8,
-              message: "Password must be at least 8 characters long",
-            },
-          })}
-        />
-
-        <button
-          type="submit"
-          className="h-[45px] bg-primary-main text-white rounded-lg"
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-2"
         >
-          register
-        </button>
-      </form>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="kennedyngosachanda@gmail.com"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="**********" type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button
+            type="submit"
+            className="h-[45px] bg-primary-main text-white rounded-lg"
+          >
+            register
+          </Button>
+        </form>
+      </Form>
       <p>
         Already have an account?{" "}
         <Link href="/user/login">
