@@ -1,24 +1,32 @@
 "use client";
 
-import React from "react";
 import { logoIcon } from "@/assets";
 import Input from "@/components/reusable/Input";
 import Image from "next/image";
 import Link from "next/link";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 interface IFormInputs {
   email: string;
   password: string;
 }
 const RegsiterForm = () => {
-  const { handleSubmit, control, reset } = useForm<IFormInputs>({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    register,
+    formState: { errors },
+  } = useForm<IFormInputs>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
+  const onSubmit = (data: IFormInputs) => {
+    alert(JSON.stringify(data));
+  };
   return (
     <div className=" flex  flex-col gap-2 bg-white shadow-lg w-full md:w-[450px] rounded-md top p-10">
       <div className="flex flex-row justify-center gap-[2px] items-baseline">
@@ -32,27 +40,28 @@ const RegsiterForm = () => {
         />
       </div>
       <p className="text-black  text-center ">Create new account</p>
-      <form className="flex flex-col gap-2">
-        <Controller
-          name="email"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <Input
-              type="text"
-              placeholder="kennedyngosa@gmail.com"
-              {...field}
-            />
-          )}
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+        <Input
+          type="email"
+          placeholder="Enter your email"
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Invalid email address",
+            },
+          })}
         />
-
-        <Controller
-          name="password"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <Input type="password" placeholder="*****" {...field} />
-          )}
+        <Input
+          type="password"
+          placeholder="Enter your password"
+          {...register("password", {
+            required: "Password is required",
+            minLength: {
+              value: 8,
+              message: "Password must be at least 8 characters long",
+            },
+          })}
         />
 
         <button
