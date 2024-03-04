@@ -18,6 +18,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import useRegister from "@/app/services/useRegister";
+import { Loader2 } from "lucide-react";
 
 const FormSchema = z.object({
   email: z.string({ required_error: "email is required" }).email(),
@@ -34,8 +36,10 @@ const RegsiterForm = () => {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    alert(JSON.stringify(data));
+  const { trigger, isMutating, data, error } = useRegister();
+
+  function onSubmit({ email, password }: z.infer<typeof FormSchema>) {
+    trigger({ email, password });
   }
   return (
     <div className=" flex  flex-col gap-2 bg-white shadow-lg w-full md:w-[450px] rounded-md top p-10">
@@ -87,10 +91,14 @@ const RegsiterForm = () => {
           />
 
           <Button
+            disabled={isMutating}
             type="submit"
             className="h-[45px] bg-primary-main text-white rounded-lg"
           >
             register
+            {isMutating ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : null}
           </Button>
         </form>
       </Form>
