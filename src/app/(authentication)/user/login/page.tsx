@@ -2,6 +2,7 @@
 import { logoIcon } from "@/assets";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { signIn } from "next-auth/react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -20,7 +21,7 @@ const Page = () => {
   } = useForm<FormValues>();
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
+    signIn("credentials", {});
   };
   return (
     <main className="flex items-center justify-center min-h-screen bg-yellow bg-opacity-20 p-4">
