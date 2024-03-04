@@ -11,6 +11,12 @@ import { logoIcon } from "@/assets";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toggleShoppingDrawer } from "@/redux/features/drawerSlice";
 
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+
 const MENULINKS = [
   {
     icon: (
@@ -64,15 +70,28 @@ const Sidebar = () => {
           </Link>
         ))}
       </div>
-      <button
-        onClick={handleCartButton}
-        className="relative self-center h-[42px] w-[42px] bg-primary-main flex justify-center items-center rounded-full"
-      >
-        <span className="absolute -top-1 -right-1 bg-[#EB5757] text-white rounded-[4px] w-[20px] h-[19px] flex justify-center items-center font-bold">
-          {totalItems}
-        </span>
-        <MdShoppingCart className="h-[20px] w-[20px] text-white " />
-      </button>
+
+      <HoverCard>
+        <HoverCardTrigger asChild>
+          <button
+            onClick={handleCartButton}
+            className="relative self-center h-[42px] w-[42px] bg-primary-main flex justify-center items-center rounded-full"
+          >
+            <span className="absolute -top-1 -right-1 bg-[#EB5757] text-white rounded-[4px] w-[20px] h-[19px] flex justify-center items-center font-bold">
+              {totalItems}
+            </span>
+            <MdShoppingCart className="h-[20px] w-[20px] text-white " />
+          </button>
+        </HoverCardTrigger>
+        <HoverCardContent>
+          <p>Cart Summary:</p>
+          {list.map(({ categoryInfo }) => (
+            <p key={categoryInfo.id} className="text-sm">
+              {totalItems} items
+            </p>
+          ))}
+        </HoverCardContent>
+      </HoverCard>
     </div>
   );
 };
