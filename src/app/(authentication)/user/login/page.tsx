@@ -20,8 +20,11 @@ import {
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
-import { toast } from "react-toastify";
+import { ReactNode, useState } from "react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { toast } from "sonner";
+
+//Form validation schema
 const FormSchema = z.object({
   email: z
     .string({ required_error: "email is required" })
@@ -42,6 +45,8 @@ const Page = () => {
     },
   });
 
+  let alertContent: ReactNode | null = null;
+
   const onSubmit = async ({ email, password }: z.infer<typeof FormSchema>) => {
     setLoading(true);
     const response = await signIn("credentials", {
@@ -54,7 +59,11 @@ const Page = () => {
       router.refresh();
     } else {
       setLoading(false);
-      toast(JSON.stringify(response));
+      if (response?.status === 401) {
+        toast.error("Auth Failed", {
+          description: "Wrong Email or Password",
+        });
+      }
     }
   };
 
@@ -87,6 +96,7 @@ const Page = () => {
           />
         </div>
         <p className="text-black  text-center ">Create new account</p>
+        {alertContent}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -155,7 +165,6 @@ const Page = () => {
             </div>
           </form>
         </Form>
-
         <p>
           Already have an account?{" "}
           <Link href="/user/register">

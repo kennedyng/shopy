@@ -4,6 +4,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 interface Props {
   open: boolean | true | false;
 }
@@ -19,6 +27,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "./ui/input";
 import { TextArea } from "./ui/text-area";
+import { Button } from "./ui/button";
+import NewCategoryInput from "./NewCategoryInput";
+import { MdAdd } from "react-icons/md";
 const FormSchema = z.object({
   name: z.string({ required_error: "name is required" }),
   note: z
@@ -137,13 +148,27 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
                 <FormLabel className="mb-[6px] text-sm font-medium text-[#34333A]">
                   Category
                 </FormLabel>
-                <FormControl>
-                  <Input
-                    className="border-[#BDBDBD] focus:border-primary-main text-sm h-[58px] px-[17px]"
-                    placeholder="kennedyngosachanda@gmail.com"
-                    {...field}
-                  />
-                </FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="border-[#BDBDBD]  focus:border-primary-main text-sm h-[58px] px-[17px]">
+                      <SelectValue placeholder="Category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="m@example.com">m@example.com</SelectItem>
+                    <SelectItem value="m@google.com">m@google.com</SelectItem>
+                    <SelectItem value="m@support.com">m@support.com</SelectItem>
+                    <div className="text-center">
+                      <Button variant={"outline"} size={"sm"}>
+                        <MdAdd />
+                        new category
+                      </Button>
+                    </div>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
