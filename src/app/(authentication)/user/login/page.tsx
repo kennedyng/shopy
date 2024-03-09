@@ -51,7 +51,7 @@ const Page = () => {
     });
 
     if (!response?.error) {
-      router.push("/");
+      router.push("/stats");
       router.refresh();
     } else {
       throw new Error("failed to login");

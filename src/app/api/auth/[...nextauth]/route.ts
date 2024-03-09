@@ -19,9 +19,10 @@ const authOptions: NextAuthOptions = {
             password: credentials?.password,
           }),
         });
+        const user = { id: "1", name: "J Smith", email: "jsmith@example.com" };
 
         if (res.ok) {
-          return res.json();
+          return user;
         } else {
           return null;
         }
@@ -32,6 +33,7 @@ const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+
   secret: process.env.JWT_SECRET as string,
   pages: {
     signIn: "/auth/login",

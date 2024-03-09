@@ -25,6 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { signOut } from "next-auth/react";
 
 const MENULINKS = [
   {
@@ -49,6 +50,10 @@ const Sidebar = () => {
     dispatch(toggleShoppingDrawer());
   };
 
+  const handleLogout = async () => {
+    signOut();
+  };
+
   const list = useAppSelector((state) => state.listReducer.list);
 
   const totalItems = useMemo(
@@ -70,7 +75,7 @@ const Sidebar = () => {
           <DropdownMenuLabel>Options</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
