@@ -21,12 +21,23 @@ import { Button } from "@/components/ui/button";
 import useRegister from "@/app/services/useRegister";
 import { Loader2 } from "lucide-react";
 
-const FormSchema = z.object({
-  email: z.string({ required_error: "email is required" }).email(),
-  password: z.string().min(8, {
-    message: "Username must be at least 8 characters.",
-  }),
-});
+const FormSchema = z
+  .object({
+    email: z.string({ required_error: "email is required" }).email(),
+    password: z
+      .string()
+      .min(8, "The password must be at least 8 characters long")
+      .max(32, "The password must be a maximun 32 characters")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/,
+        "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character"
+      ),
+    confirmPassword: z.string(),
+  })
+  .refine(({ password, confirmPassword }) => password === confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords don't match",
+  });
 const RegsiterForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -34,6 +45,7 @@ const RegsiterForm = () => {
       email: "",
       password: "",
     },
+    mode: "onTouched",
   });
 
   const { trigger, isMutating, data, error } = useRegister();
@@ -88,6 +100,20 @@ const RegsiterForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="**********" type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
                   <Input placeholder="**********" type="password" {...field} />
                 </FormControl>
