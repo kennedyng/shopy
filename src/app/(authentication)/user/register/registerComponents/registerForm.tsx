@@ -51,18 +51,14 @@ const RegsiterForm = () => {
   const { trigger, isMutating, data, error } = useRegister();
 
   function onSubmit({ email, password }: z.infer<typeof FormSchema>) {
-    trigger(
-      { email, password },
-      {
-        onSuccess: () => alert("created"),
-        onError: () => alert("failed"),
-      }
-    );
+    trigger({ email, password });
   }
   return (
     <div className=" flex  flex-col gap-2 bg-white shadow-lg w-full md:w-[450px] rounded-md top p-10">
       <div className="flex flex-row justify-center gap-[2px] items-baseline">
         <div className="font-bold text-center">Register</div>
+
+        {error && <div> Something Went Wrong</div>}
         <Image
           height={40}
           width={40}
