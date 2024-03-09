@@ -14,18 +14,13 @@ const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log("suth start");
-
-        const res = await fetch("/api/login", {
+        const res = await fetch(`${process.env.BASE_URL}/api/login`, {
           method: "POST",
           body: JSON.stringify({
-            email: "jonathan.taylor@awesix.cop",
-            password: "",
+            email: credentials?.email,
+            password: credentials?.password,
           }),
         });
-
-        console.log(credentials);
-
         if (!res.ok) return null;
         return (await res.json()) ?? null;
       },

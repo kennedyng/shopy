@@ -49,7 +49,7 @@ const Page = () => {
       password,
       redirect: false,
     });
-    if (!response?.error) {
+    if (response?.ok) {
       router.push("/");
       router.refresh();
     } else {
