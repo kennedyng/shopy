@@ -3,7 +3,6 @@ import { logoIcon } from "@/assets";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
-
 import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -42,21 +41,22 @@ const Page = () => {
     },
   });
 
-  async function onSubmit({ email, password }: z.infer<typeof FormSchema>) {
+  const onSubmit = async ({ email, password }: z.infer<typeof FormSchema>) => {
     setLoading(true);
+
     const response = await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
-
+    alert(JSON.stringify(response));
     if (!response?.error) {
-      router.push("/stats");
+      router.push("/");
       router.refresh();
     } else {
       throw new Error("failed to login");
     }
-  }
+  };
 
   const handlTestLogin = async () => {
     setLoading(true);

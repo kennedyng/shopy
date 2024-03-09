@@ -51,7 +51,7 @@ const Sidebar = () => {
   };
 
   const handleLogout = async () => {
-    signOut();
+    signOut({ callbackUrl: "/user/login" });
   };
 
   const list = useAppSelector((state) => state.listReducer.list);

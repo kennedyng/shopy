@@ -3,41 +3,47 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth, { NextAuthOptions } from "next-auth";
 
 const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+  },
+
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        email: { label: "Email", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" },
       },
-
       async authorize(credentials) {
         const res = await fetch("/api/auth/login", {
           method: "POST",
           body: JSON.stringify({
-            email: credentials?.username,
+            email: credentials?.email,
             password: credentials?.password,
           }),
         });
-        const user = { id: "1", name: "J Smith", email: "jsmith@example.com" };
-
-        if (res.ok) {
-          return user;
-        } else {
-          return null;
-        }
+        if (!res.ok) return null;
+        return (await res.json()) ?? null;
       },
     }),
   ],
 
-  session: {
-    strategy: "jwt",
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      if (user) token = user as unknown as { [key: string]: any };
+      console.log(token);
+
+      return token;
+    },
+    session: async ({ session, token }) => {
+      session.user = { ...token };
+      return session;
+    },
   },
 
   secret: process.env.JWT_SECRET as string,
   pages: {
     signIn: "/auth/login",
-    newUser: "/auth/register", // New users will be directed here on first sign in (leave the property out if not of interest)
   },
 };
 
