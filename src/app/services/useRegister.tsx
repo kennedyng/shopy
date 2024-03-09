@@ -1,13 +1,20 @@
 "use client";
-import apiClient from "@/lib/axios";
-import React from "react";
+import { CustomError } from "@/lib/exceptions";
 import useSWRMutation from "swr/mutation";
 import { UserInfo } from "../@types";
-import { AxiosError, AxiosResponse } from "axios";
 
-const registerUser = (url: string, { arg }: { arg: UserInfo }) =>
-  apiClient.post(url, arg).then((res: AxiosResponse) => res.data);
+const registerUser = async (url: string, { arg }: { arg: UserInfo }) => {
+  const res = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify(arg),
+  });
 
+  if (!res.ok) {
+    throw new CustomError("Failed to register user", res.status);
+  }
+
+  return res.json();
+};
 const useRegister = () => {
   return useSWRMutation("/api/auth/register", registerUser);
 };

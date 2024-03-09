@@ -12,7 +12,8 @@ interface Props {
 }
 
 const swrOptions: SWRConfiguration = {
-  fetcher: (url: string) => apiClient.get(url).then((res) => res.data), // Example: use axiosInstance for fetching
+  fetcher: (resource: RequestInfo, init: RequestInit) =>
+    fetch(resource, init).then((res) => res.json()),
 };
 const AppProviders: FC<Props> = ({ children }) => {
   return (
