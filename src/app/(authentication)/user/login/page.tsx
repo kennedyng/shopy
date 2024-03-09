@@ -61,8 +61,8 @@ const Page = () => {
   const handlTestLogin = async () => {
     setLoading(true);
     const response = await signIn("credentials", {
-      email: "test",
-      password: "",
+      email: process.env.NEXT_PUBLIC_TEST_EMAIL as string,
+      password: process.env.NEXT_PUBLIC_TEST_PASSWORD,
       redirect: false,
     });
 
