@@ -19,14 +19,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
 const FormSchema = z.object({
-  email: z.string({ required_error: "email is required" }).email(),
+  email: z
+    .string({ required_error: "email is required" })
+    .email({ message: "valid email is required" }),
   password: z.string().min(8, {
     message: "Username must be at least 8 characters.",
   }),
 });
 
 const Page = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -35,9 +42,37 @@ const Page = () => {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    alert(JSON.stringify(data));
+  async function onSubmit({ email, password }: z.infer<typeof FormSchema>) {
+    setLoading(true);
+    const response = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (!response?.error) {
+      router.push("/");
+      router.refresh();
+    } else {
+      throw new Error("failed to login");
+    }
   }
+
+  const handlTestLogin = async () => {
+    setLoading(true);
+    const response = await signIn("credentials", {
+      email: "test",
+      password: "",
+      redirect: false,
+    });
+
+    if (!response?.error) {
+      router.push("/");
+      router.refresh();
+    } else {
+      throw new Error("failed to login");
+    }
+  };
   return (
     <main className="flex items-center justify-center min-h-screen bg-yellow bg-opacity-20 p-4">
       <div className=" flex  flex-col gap-2 bg-white shadow-lg w-full md:w-[450px] rounded-md top p-10">
@@ -93,10 +128,14 @@ const Page = () => {
             />
 
             <Button
+              disabled={loading}
               type="submit"
               className="bg-primary-main rounded-md text-white py-2 px-8 font-bold w-full"
             >
-              Login
+              Login{" "}
+              {loading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : null}
             </Button>
 
             <div className="flex flex-row items-center gap-4 my-4">
@@ -106,12 +145,13 @@ const Page = () => {
             </div>
 
             <div className="flex flex-row justify-center gap-4 ">
-              <button
+              <Button
+                onClick={handlTestLogin}
                 type="button"
                 className="bg-black py-2 px-8 w-full rounded-md text-white font-bold"
               >
                 Test
-              </button>
+              </Button>
             </div>
           </form>
         </Form>

@@ -2,27 +2,28 @@
 
 import { logoIcon } from "@/assets";
 import Input from "@/components/reusable/Input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
+import useRegister from "@/app/services/useRegister";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import useRegister from "@/app/services/useRegister";
 import { Loader2 } from "lucide-react";
+import { ReactNode } from "react";
 
+//validation schema
 const FormSchema = z
   .object({
     email: z.string({ required_error: "email is required" }).email(),
@@ -40,6 +41,8 @@ const FormSchema = z
     path: ["confirmPassword"],
     message: "Passwords don't match",
   });
+
+//user registration form
 const RegsiterForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -55,11 +58,38 @@ const RegsiterForm = () => {
   function onSubmit({ email, password }: z.infer<typeof FormSchema>) {
     trigger({ email, password });
   }
+
+  let alertContent: ReactNode | null = null;
+
+  if (!data && error?.status === 409) {
+    alertContent = (
+      <Alert variant="destructive">
+        <AlertTitle>Auth Failed</AlertTitle>
+        <AlertDescription>
+          Authentication failed. user account Already exists
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
+  if (data && !error) {
+    alertContent = (
+      <Alert className="bg-green-100 text-green-900 border-green-400">
+        <AlertTitle>Successfully Account Created</AlertTitle>
+        <AlertDescription>
+          account created.{" "}
+          <b>
+            <Link href={"/user/login"}>Login To Continue</Link>
+          </b>
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
   return (
     <div className=" flex  flex-col gap-2 bg-white shadow-lg w-full md:w-[450px] rounded-md top p-10">
       <div className="flex flex-row justify-center gap-[2px] items-baseline">
         <div className="font-bold text-center">Register</div>
-
         <Image
           height={40}
           width={40}
@@ -69,6 +99,8 @@ const RegsiterForm = () => {
         />
       </div>
       <p className="text-black  text-center ">Create new account</p>
+
+      {alertContent}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
