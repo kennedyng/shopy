@@ -28,8 +28,8 @@ import {
 import { Input } from "./ui/input";
 import { TextArea } from "./ui/text-area";
 import { Button } from "./ui/button";
-import NewCategoryInput from "./NewCategoryInput";
 import { MdAdd } from "react-icons/md";
+import NewCategoryDialog from "./NewCategoryDialog";
 const FormSchema = z.object({
   name: z.string({ required_error: "name is required" }),
   note: z
@@ -161,12 +161,7 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
                     <SelectItem value="m@example.com">m@example.com</SelectItem>
                     <SelectItem value="m@google.com">m@google.com</SelectItem>
                     <SelectItem value="m@support.com">m@support.com</SelectItem>
-                    <div className="text-center">
-                      <Button variant={"outline"} size={"sm"}>
-                        <MdAdd />
-                        new category
-                      </Button>
-                    </div>
+                    <NewCategoryDialog />
                   </SelectContent>
                 </Select>
                 <FormMessage />
