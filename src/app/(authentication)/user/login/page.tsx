@@ -21,6 +21,7 @@ import {
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 const FormSchema = z.object({
   email: z
     .string({ required_error: "email is required" })
@@ -43,18 +44,17 @@ const Page = () => {
 
   const onSubmit = async ({ email, password }: z.infer<typeof FormSchema>) => {
     setLoading(true);
-
     const response = await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
-    alert(JSON.stringify(response));
     if (!response?.error) {
       router.push("/");
       router.refresh();
     } else {
-      throw new Error("failed to login");
+      setLoading(false);
+      toast(JSON.stringify(response));
     }
   };
 

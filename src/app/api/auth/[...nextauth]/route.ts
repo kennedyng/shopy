@@ -6,7 +6,6 @@ const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -15,13 +14,18 @@ const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const res = await fetch("/api/auth/login", {
+        console.log("suth start");
+
+        const res = await fetch("/api/login", {
           method: "POST",
           body: JSON.stringify({
-            email: credentials?.email,
-            password: credentials?.password,
+            email: "jonathan.taylor@awesix.cop",
+            password: "",
           }),
         });
+
+        console.log(credentials);
+
         if (!res.ok) return null;
         return (await res.json()) ?? null;
       },
@@ -43,7 +47,7 @@ const authOptions: NextAuthOptions = {
 
   secret: process.env.JWT_SECRET as string,
   pages: {
-    signIn: "/auth/login",
+    signIn: "/user/login",
   },
 };
 
