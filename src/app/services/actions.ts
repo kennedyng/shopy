@@ -1,6 +1,7 @@
 "use server";
 import { z } from "zod";
 
+import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 const schema = z.object({
   categoryName: z.string({
@@ -8,6 +9,7 @@ const schema = z.object({
   }),
 });
 export async function createCategory(formData: FormData) {
+  const sessions = await auth();
   const validatedFields = schema.safeParse({
     categoryName: formData.get("categoryName"),
   });
@@ -16,9 +18,9 @@ export async function createCategory(formData: FormData) {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
-
   const data = await prisma.category.create({
     data: {
+      owner: sessions?.user.id,
       name: validatedFields.data.categoryName,
     },
   });

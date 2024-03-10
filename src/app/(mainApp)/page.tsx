@@ -1,7 +1,6 @@
-import Input from "@/components/reusable/Input";
-import Image from "next/image";
 import { MdSearch } from "react-icons/md";
 import CategoryItems from "./listComponents/CategoryItems";
+
 export default function Home() {
   return (
     <main>

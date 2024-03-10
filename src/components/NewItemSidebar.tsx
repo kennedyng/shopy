@@ -1,3 +1,4 @@
+"use client";
 import React, { FC } from "react";
 
 import { useForm } from "react-hook-form";
@@ -59,7 +60,6 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
       name: "",
       note: "",
       image: "",
-
       category: "",
     },
   });
