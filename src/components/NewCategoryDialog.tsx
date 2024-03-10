@@ -1,8 +1,9 @@
-import React from "react";
-import { Input } from "./ui/input";
+"use client";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
-import prisma from "@/lib/db";
+import { Input } from "./ui/input";
 
+import { createCategory } from "@/app/services/actions";
 import {
   Dialog,
   DialogClose,
@@ -13,26 +14,29 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-const createCategory = async (formData: FormData) => {
-  // const data = prisma.category.create({
-  //   data: {
-  //     name:
-  //   }
-  // })
-
-  const categoryName = formData.get("categoryName");
-
-  console.log;
+import { toast } from "sonner";
+const initialState = {
+  categoryName: "",
 };
 const NewCategoryDialog = () => {
+  const [categoryName, setCategoryName] = useState<string>("");
+  const handleCreateCategory = async () => {
+    const form = new FormData();
+    form.append("categoryName", categoryName);
+    const response = await createCategory(form);
+  };
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCategoryName(e.target.value);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size={"sm"}>
+        <Button className="w-full bg-primary-main" size={"sm"}>
           new category
         </Button>
       </DialogTrigger>
+
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create New Category</DialogTitle>
@@ -40,13 +44,18 @@ const NewCategoryDialog = () => {
             provide name of the new category
           </DialogDescription>
         </DialogHeader>
-
-        <Input name="categoryName" />
+        <Input onChange={handleOnChange} name="categoryName" />
         <DialogFooter>
           <DialogClose>
             <Button variant={"destructive"}>Cancel</Button>
           </DialogClose>
-          <Button className="bg-primary-main font-bold">Create</Button>
+          <Button
+            disabled={categoryName.length < 2}
+            onClick={handleCreateCategory}
+            className="bg-primary-main font-bold"
+          >
+            Save
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

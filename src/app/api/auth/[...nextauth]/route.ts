@@ -13,7 +13,7 @@ const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const res = await fetch(`${process.env.BASE_URL}/api/login`, {
+        const res = await fetch(`${process.env.BASE_URL}/api/auth/login`, {
           method: "POST",
           body: JSON.stringify({
             email: credentials?.email,
