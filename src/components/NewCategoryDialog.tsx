@@ -24,13 +24,15 @@ const NewCategoryDialog = () => {
     const form = new FormData();
     form.append("categoryName", categoryName);
     const response = await createCategory(form);
+    setOpen(false);
   };
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCategoryName(e.target.value);
   };
+  const [open, setOpen] = React.useState(false);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="w-full bg-primary-main" size={"sm"}>
           new category
