@@ -2,7 +2,6 @@
 import { z } from "zod";
 
 import { auth } from "@/lib/auth";
-import prisma from "@/lib/db";
 const schema = z.object({
   categoryName: z.string({
     invalid_type_error: "Invalid Name",
@@ -18,12 +17,19 @@ export async function createCategory(formData: FormData) {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
-  const data = await prisma.category.create({
-    data: {
-      owner: sessions?.user.id,
-      name: validatedFields.data.categoryName,
+
+  const res = await fetch(`${process.env.API_BASE_URL}/category/create`, {
+    method: "POST",
+    body: JSON.stringify({ name: validatedFields.data.categoryName }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${sessions?.user.token}`,
     },
   });
 
-  return data;
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+
+  return await res.json();
 }

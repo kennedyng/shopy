@@ -1,11 +1,9 @@
 "use client";
 
-import React from "react";
-import ShoppingSidebar from "./ShoppingSidebar";
+import { useAppSelector } from "@/redux/hooks";
 import ItemDetailSidebar from "./ItemDetailSidebar";
 import NewItemSidebar from "./NewItemSidebar";
-import { useAppSelector } from "@/redux/hooks";
-import { drawerSelector } from "@/redux/features/drawerSlice";
+import ShoppingSidebar from "./ShoppingSidebar";
 
 const Drawers = () => {
   const { shoppingDrawerIsOpen, newItemDrawerIsOpen, itemDetailsDrawerIsOpen } =

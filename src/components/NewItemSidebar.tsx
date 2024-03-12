@@ -1,8 +1,8 @@
 "use client";
-import React, { FC } from "react";
+import { FC } from "react";
 
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import {
@@ -20,17 +20,16 @@ interface Props {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import NewCategoryDialog from "./NewCategoryDialog";
 import { Input } from "./ui/input";
 import { TextArea } from "./ui/text-area";
-import { Button } from "./ui/button";
-import { MdAdd } from "react-icons/md";
-import NewCategoryDialog from "./NewCategoryDialog";
+
+//form validation
 const FormSchema = z.object({
   name: z.string({ required_error: "name is required" }),
   note: z
@@ -53,6 +52,7 @@ const FormSchema = z.object({
     })
     .optional(),
 });
+
 const NewItemSidebar: FC<Props> = ({ open }) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

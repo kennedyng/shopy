@@ -130,7 +130,7 @@ const RegsiterForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="**********" type="password" {...field} />
+                  <Input placeholder="**********" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -144,7 +144,7 @@ const RegsiterForm = () => {
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="**********" type="password" {...field} />
+                  <Input placeholder="**********" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
