@@ -15,15 +15,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { useSWRConfig } from "swr";
 const initialState = {
   categoryName: "",
 };
 const NewCategoryDialog = () => {
   const [categoryName, setCategoryName] = useState<string>("");
+  const { mutate } = useSWRConfig();
   const handleCreateCategory = async () => {
     const form = new FormData();
     form.append("categoryName", categoryName);
     const response = await createCategory(form);
+    mutate(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/category`);
+
     setOpen(false);
   };
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {

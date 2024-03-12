@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import { ToastContainer, toast } from "react-toastify";
 import AppProviders from "@/components/AppProviders";
+import AuthProvider from "@/components/AuthProvider";
 
 const quickSand = Quicksand({ subsets: ["latin"] });
 
@@ -21,10 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={quickSand.className}>
-        <AppProviders>
-          {children}
-          <ToastContainer icon={false} />
-        </AppProviders>
+        <AuthProvider>
+          <AppProviders>
+            {children}
+            <ToastContainer icon={false} />
+          </AppProviders>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -18,7 +18,7 @@ export async function createCategory(formData: FormData) {
     };
   }
 
-  const res = await fetch(`${process.env.API_BASE_URL}/category/create`, {
+  const res = await fetch(`${process.env.API_BASE_URL}/api/category/create`, {
     method: "POST",
     body: JSON.stringify({ name: validatedFields.data.categoryName }),
     headers: {

@@ -5,4 +5,6 @@ import { cookies } from "next/headers";
 
 export { default } from "next-auth/middleware";
 
-export async function middleware(req: Request) {}
+export async function middleware(req: Request) {
+  console.log("middleware");
+}

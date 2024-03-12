@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_ENDPOINT = process.env.NEXT_PUBLIC_SENS_URL as string;
+const API_ENDPOINT = process.env.NEXT_PUBLIC_API_BASE_URL as string;
 
 const TOKEN = "not set" as string;
 

@@ -28,6 +28,7 @@ import {
 import NewCategoryDialog from "./NewCategoryDialog";
 import { Input } from "./ui/input";
 import { TextArea } from "./ui/text-area";
+import useGetCategories from "@/app/services/useGetCategories";
 
 //form validation
 const FormSchema = z.object({
@@ -63,6 +64,9 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
       category: "",
     },
   });
+
+  const { data: categories, isLoading: categoriesIsLoading } =
+    useGetCategories();
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     alert(JSON.stringify(data));
@@ -158,9 +162,13 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="m@example.com">m@example.com</SelectItem>
-                    <SelectItem value="m@google.com">m@google.com</SelectItem>
-                    <SelectItem value="m@support.com">m@support.com</SelectItem>
+                    {categories.map(
+                      ({ id, name }: { id: string; name: string }) => (
+                        <SelectItem key={id} value={id}>
+                          {name}
+                        </SelectItem>
+                      )
+                    )}
                     <NewCategoryDialog />
                   </SelectContent>
                 </Select>
