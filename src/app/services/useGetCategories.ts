@@ -1,8 +1,8 @@
-import React from "react";
-import useSWR, { useSWRConfig } from "swr";
+import { fetchCategories } from "@/lib/server/category";
+import useSWR, { SWRResponse } from "swr";
 
-const useGetCategories = () => {
-  return useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/category`);
+const useGetCategories = (): SWRResponse => {
+  return useSWR("user-categories", fetchCategories);
 };
 
 export default useGetCategories;

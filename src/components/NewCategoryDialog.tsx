@@ -26,7 +26,7 @@ const NewCategoryDialog = () => {
     const form = new FormData();
     form.append("categoryName", categoryName);
     const response = await createCategory(form);
-    mutate(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/category`);
+    mutate(`user-categories`);
 
     setOpen(false);
   };

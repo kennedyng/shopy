@@ -12,8 +12,7 @@ interface Props {
 }
 
 const swrOptions: SWRConfiguration = {
-  fetcher: async (resource: RequestInfo, init: RequestInit) =>
-    fetch(resource, init).then((res) => res.json()),
+  fetcher: (resource) => fetch(resource).then((res) => res.json()),
 };
 const AppProviders: FC<Props> = ({ children }) => {
   return (

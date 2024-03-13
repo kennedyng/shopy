@@ -32,37 +32,25 @@ import useGetCategories from "@/app/services/useGetCategories";
 
 //form validation
 const FormSchema = z.object({
-  name: z.string({ required_error: "name is required" }),
-  note: z
-    .string()
-    .min(150, {
-      message: "Username must be at least 8 characters.",
-    })
-    .optional(),
-  image: z
-    .string()
-    .min(150, {
-      message: "Username must be at least 8 characters.",
-    })
-    .optional(),
+  name: z.string({
+    required_error: "name is required",
+  }),
+  note: z.string({
+    required_error: "note is required",
+  }),
 
-  category: z
-    .string()
-    .min(150, {
-      message: "Username must be at least 8 characters.",
-    })
-    .optional(),
+  image: z.string({
+    required_error: "image is required",
+  }),
+
+  category: z.string({
+    required_error: "category is required",
+  }),
 });
 
 const NewItemSidebar: FC<Props> = ({ open }) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      name: "",
-      note: "",
-      image: "",
-      category: "",
-    },
   });
 
   const { data: categories, isLoading: categoriesIsLoading } =
@@ -162,7 +150,7 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {categories.map(
+                    {categories?.map(
                       ({ id, name }: { id: string; name: string }) => (
                         <SelectItem key={id} value={id}>
                           {name}
