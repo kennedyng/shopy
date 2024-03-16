@@ -29,6 +29,9 @@ import NewCategoryDialog from "./NewCategoryDialog";
 import { Input } from "./ui/input";
 import { TextArea } from "./ui/text-area";
 import useGetCategories from "@/app/services/useGetCategories";
+import useCreateItem from "@/app/services/useCreateItem";
+import { Button } from "./ui/button";
+import { toast } from "sonner";
 
 //form validation
 const FormSchema = z.object({
@@ -56,8 +59,28 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
   const { data: categories, isLoading: categoriesIsLoading } =
     useGetCategories();
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    alert(JSON.stringify(data));
+  const { trigger: triggerCreateItem, isMutating: isMutatingCreateItem } =
+    useCreateItem();
+  function onSubmit({
+    category,
+    image,
+    name,
+    note,
+  }: z.infer<typeof FormSchema>) {
+    triggerCreateItem(
+      {
+        name,
+        note,
+        image_url: image,
+        categoryId: category,
+      },
+      {
+        onSuccess: (data) =>
+          toast("successfully", {
+            description: `item ${data.name} is created`,
+          }),
+      }
+    );
   }
   return (
     <aside
@@ -167,13 +190,18 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
 
           <div className="flex justify-center">
             <div className="flex flex-row gap-[18px]">
-              <button type="button">cancel</button>
-              <button
+              <Button
+                className=" text-white rounded-xl font-bold h-[61px] w-[87px]"
+                type="button"
+              >
+                cancel
+              </Button>
+              <Button
                 type="submit"
                 className="bg-primary-main text-white rounded-xl font-bold h-[61px] w-[87px]"
               >
-                Save
-              </button>
+                {isMutatingCreateItem ? "Saving..." : "Save"}
+              </Button>
             </div>
           </div>
         </form>

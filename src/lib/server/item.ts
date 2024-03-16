@@ -1,16 +1,18 @@
 "use server";
-
+import { ItemType } from "@/app/@types";
 import { auth } from "@/lib/auth";
 
 export const createItem = async (
-  url: string,
-  { arg }: { arg: any }
-): Promise<any[]> => {
+  _: string,
+  { arg }: { arg: ItemType }
+): Promise<ItemType> => {
   const session = await auth();
-  const res = await fetch(`${process.env.API_BASE_URL}/api/category`, {
+  console.log("arg", arg);
+  const res = await fetch(`${process.env.API_BASE_URL}/api/item/create`, {
     method: "POST",
     body: JSON.stringify(arg),
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${session?.user.token}`,
     },
   });
