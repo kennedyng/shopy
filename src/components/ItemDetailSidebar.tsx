@@ -1,11 +1,14 @@
+import { getItemDetails } from "@/lib/server/item";
 import { closeItemDetailsDrawer } from "@/redux/features/drawerSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import React, { FC } from "react";
 import { MdArrowBack } from "react-icons/md";
+
 interface Props {
   open: boolean;
 }
-const ItemDetailSidebar: FC<Props> = ({ open }) => {
+const ItemDetailSidebar: FC<Props> = async ({ open }) => {
+  const itemDetails = await getItemDetails();
   const dispatch = useAppDispatch();
   const handleBackClick = () => {
     dispatch(closeItemDetailsDrawer());

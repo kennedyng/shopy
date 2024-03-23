@@ -6,20 +6,27 @@ import { useDispatch } from "react-redux";
 import { openItemDetailsDrawer } from "@/redux/features/drawerSlice";
 import { addItemToCategory } from "@/redux/features/listSlice";
 import { ItemType } from "@/app/@types";
+import { useSearchParams } from "next/navigation";
 
 interface Props {
   title: string;
   items: ItemType[];
 }
+
 const CategoryItems: React.FC<Props> = ({ title, items }) => {
   const dispatch = useDispatch();
+  const searchParams = useSearchParams();
 
   const handleAddClick = () => {
     dispatch(openItemDetailsDrawer());
   };
 
-  const handleLabelClick = () => {
-    console.log("Label clicked");
+  const handleLabelClick = (itemId: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("selected_item", itemId);
+    window.history.pushState(null, "", `?${params.toString()}`);
+
+    dispatch(openItemDetailsDrawer());
   };
 
   const handleAddItem = () => {
@@ -45,7 +52,7 @@ const CategoryItems: React.FC<Props> = ({ title, items }) => {
         {items.map(({ id, name }) => (
           <ItemCard
             key={id}
-            onLabelClick={handleAddClick}
+            onLabelClick={() => handleLabelClick(String(id))}
             onAddClick={handleAddItem}
             label={name}
           />

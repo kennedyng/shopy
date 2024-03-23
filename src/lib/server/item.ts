@@ -8,7 +8,6 @@ export const createItem = async (
   { arg }: { arg: ItemType }
 ): Promise<ItemType> => {
   const session = await auth();
-  console.log("arg", arg);
   const res = await fetch(`${process.env.API_BASE_URL}/api/item/create`, {
     method: "POST",
     body: JSON.stringify(arg),
@@ -22,5 +21,21 @@ export const createItem = async (
     throw new Error(res.statusText);
   }
   revalidateTag("user-categories");
+  return await res.json();
+};
+
+export const getItemDetails = async (): Promise<ItemType> => {
+  const session = await auth();
+  const res = await fetch(`${process.env.API_BASE_URL}/api/item`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.user.token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
   return await res.json();
 };
