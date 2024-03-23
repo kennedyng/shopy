@@ -1,7 +1,10 @@
 import { MdSearch } from "react-icons/md";
 import CategoryItems from "./listComponents/CategoryItems";
+import { fetchCategories } from "@/lib/server/category";
 
-export default function Home() {
+export default async function Home() {
+  const categories = await fetchCategories();
+
   return (
     <main>
       <div className="hidden  flex-row gap-2 justify-between lg:flex">
@@ -20,15 +23,11 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="my-[57px]">
-        <CategoryItems />
-        <div className="inline-block h-[61px] w-full" />
-
-        <CategoryItems />
-        <div className="inline-block h-[61px] w-full" />
-
-        <CategoryItems />
-      </div>
+      {categories.map(({ id, name, items }) => (
+        <div key={id} className="my-[57px]">
+          <CategoryItems title={name} items={items} />
+        </div>
+      ))}
     </main>
   );
 }

@@ -12,3 +12,10 @@ export type ItemType = {
   categoryId?: string;
   shppingListItemId?: string;
 };
+
+export type CategoriesType = {
+  id: string;
+  name: string;
+  userId: string;
+  items: ItemType[];
+};
