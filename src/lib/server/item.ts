@@ -1,6 +1,7 @@
 "use server";
 import { ItemType } from "@/app/@types";
 import { auth } from "@/lib/auth";
+import { revalidateTag } from "next/cache";
 
 export const createItem = async (
   _: string,
@@ -20,6 +21,6 @@ export const createItem = async (
   if (!res.ok) {
     throw new Error(res.statusText);
   }
-
+  revalidateTag("user-categories");
   return await res.json();
 };

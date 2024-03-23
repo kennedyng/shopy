@@ -13,10 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface Props {
-  open: boolean | true | false;
-}
-
 import {
   Form,
   FormControl,
@@ -50,6 +46,9 @@ const FormSchema = z.object({
     required_error: "category is required",
   }),
 });
+interface Props {
+  open: boolean | true | false;
+}
 
 const NewItemSidebar: FC<Props> = ({ open }) => {
   const form = useForm<z.infer<typeof FormSchema>>({

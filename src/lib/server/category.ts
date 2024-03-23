@@ -11,9 +11,8 @@ export const fetchCategories = async (): Promise<CategoriesType[]> => {
       Authorization: `Bearer ${session?.user.token}`,
     },
 
-    cache: "no-cache",
+    next: { tags: ["user-categories"] },
   });
-
   if (!res.ok) {
     throw new Error(res.statusText);
   }
