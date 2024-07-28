@@ -24,5 +24,6 @@ export const registerUser = async (
     },
   });
 
+  console.log(user);
   return user;
 };
