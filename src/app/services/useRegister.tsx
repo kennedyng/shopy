@@ -1,4 +1,3 @@
-"use client";
 import { CustomError } from "@/lib/exceptions";
 import useSWRMutation from "swr/mutation";
 import { UserInfo } from "../@types";
