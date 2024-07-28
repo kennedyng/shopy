@@ -44,6 +44,7 @@ const NewCategoryDialog = () => {
   const [open, setOpen] = React.useState(false);
 
   const { trigger, isMutating } = useCreateCategory();
+  const { mutate } = useSWRConfig();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -58,6 +59,7 @@ const NewCategoryDialog = () => {
       {
         onSuccess() {
           setOpen(false);
+          mutate("user-categories");
         },
       }
     );
