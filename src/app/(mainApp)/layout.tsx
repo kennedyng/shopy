@@ -16,7 +16,7 @@ export default function RootLayout({
           <div className="w-full px-2 py-[37px] md:px-[80px] lg:w-[calc(100%-386px)]">
             {children}
           </div>
-          <Drawers />
+          {/* <Drawers /> */}
         </div>
       </div>
     </Providers>
