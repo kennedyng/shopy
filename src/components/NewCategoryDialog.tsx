@@ -24,10 +24,10 @@ import {
 import { useSession } from "next-auth/react";
 import { useSWRConfig } from "swr";
 
-import useCreateCategory from "@/app/services/useCreateCategory";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import useCreateCategory from "@/app/services/category/useCreateCategory";
 
 const FormSchema = z.object({
   name: z.string().min(2, {

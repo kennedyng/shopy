@@ -24,10 +24,12 @@ import {
 import NewCategoryDialog from "./NewCategoryDialog";
 import { Input } from "./ui/input";
 import { TextArea } from "./ui/text-area";
-import useGetCategories from "@/app/services/useGetCategories";
-import useCreateItem from "@/app/services/useCreateItem";
+
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import useCreateItem from "@/app/services/item/useCreateItem";
+import useGetCategories from "@/app/services/category/useGetCategories";
+import { Loader2 } from "lucide-react";
 
 //form validation
 const FormSchema = z.object({
@@ -42,7 +44,7 @@ const FormSchema = z.object({
     required_error: "image is required",
   }),
 
-  category: z.string({
+  categoryId: z.string({
     required_error: "category is required",
   }),
 });
@@ -55,13 +57,12 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
     resolver: zodResolver(FormSchema),
   });
 
-  const { data: categories, isLoading: categoriesIsLoading } =
-    useGetCategories();
+  const { data: categories } = useGetCategories();
 
   const { trigger: triggerCreateItem, isMutating: isMutatingCreateItem } =
     useCreateItem();
   function onSubmit({
-    category,
+    categoryId,
     image,
     name,
     note,
@@ -70,13 +71,13 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
       {
         name,
         note,
-        image_url: image,
-        categoryId: category,
+        imageUrl: image,
+        categoryId,
       },
       {
-        onSuccess: (data) =>
+        onSuccess: () =>
           toast("successfully", {
-            description: `item ${data.name} is created`,
+            description: `item  is created`,
           }),
       }
     );
@@ -156,7 +157,7 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
 
           <FormField
             control={form.control}
-            name="category"
+            name="categoryId"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="mb-[6px] text-sm font-medium text-[#34333A]">
@@ -172,13 +173,11 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {categories?.map(
-                      ({ id, name }: { id: string; name: string }) => (
-                        <SelectItem key={id} value={id}>
-                          {name}
-                        </SelectItem>
-                      )
-                    )}
+                    {categories?.map(({ id, name }) => (
+                      <SelectItem key={id} value={id}>
+                        {name}
+                      </SelectItem>
+                    ))}
                     <NewCategoryDialog />
                   </SelectContent>
                 </Select>
@@ -199,7 +198,11 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
                 type="submit"
                 className="bg-primary-main text-white rounded-xl font-bold h-[61px] w-[87px]"
               >
-                {isMutatingCreateItem ? "Saving..." : "Save"}
+                {isMutatingCreateItem ? (
+                  <Loader2 className="w-5 h-4 animate-spin" />
+                ) : (
+                  "Save"
+                )}
               </Button>
             </div>
           </div>

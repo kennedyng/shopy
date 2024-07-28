@@ -1,7 +1,6 @@
-import { getItemDetails } from "@/lib/server/item";
 import { closeItemDetailsDrawer } from "@/redux/features/drawerSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import React, { FC } from "react";
+import { FC } from "react";
 import { MdArrowBack } from "react-icons/md";
 
 interface Props {

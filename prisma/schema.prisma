@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,13 +8,13 @@ datasource db {
 }
 
 model User {
-  id           String     @id @default(uuid())
-  email        String     @unique
-  password     String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  shoppingList List[]
-  categories   Category[]
+  id            String     @id @default(uuid())
+  email         String     @unique
+  password      String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  shoppingLists List[]
+  categories    Category[]
 }
 
 model List {
@@ -25,35 +22,35 @@ model List {
   name       String
   isComplete Boolean    @default(false)
   createdAt  DateTime   @default(now())
-  updateAt   DateTime   @updatedAt
-  User       User?      @relation(fields: [owner], references: [id])
-  owner      String?
-  listItem   ListItem[]
+  updatedAt  DateTime   @updatedAt
+  owner      String
+  user       User       @relation(fields: [owner], references: [id])
+  listItems  ListItem[]
 }
 
 model ListItem {
-  id     String  @id @default(uuid())
+  id     String @id @default(uuid())
   pcs    Int
-  item   Item[]
-  List   List?   @relation(fields: [listId], references: [id])
-  listId String?
+  itemId String
+  listId String
+  item   Item   @relation(fields: [itemId], references: [id])
+  list   List   @relation(fields: [listId], references: [id])
 }
 
 model Item {
   id         String     @id @default(uuid())
   name       String
   note       String
-  image_url  String
-  category   Category[]
-  ListItem   ListItem?  @relation(fields: [listItemId], references: [id])
-  listItemId String?
+  imageUrl   String
+  categoryId String
+  listItems  ListItem[]
+  category   Category   @relation(fields: [categoryId], references: [id])
 }
 
 model Category {
-  id     String  @id @default(uuid())
-  name   String
-  User   User?   @relation(fields: [owner], references: [id])
-  owner  String?
-  Item   Item?   @relation(fields: [itemId], references: [id])
-  itemId String?
+  id    String @id @default(uuid())
+  name  String
+  owner String
+  user  User?  @relation(fields: [owner], references: [id])
+  items Item[]
 }

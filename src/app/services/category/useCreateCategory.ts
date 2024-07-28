@@ -5,7 +5,7 @@ import useSWRMutation from "swr/mutation";
 const useCreateCategory = () => {
   return useSWRMutation(
     "create-category",
-    (url, { arg }: { arg: CreateCateData }) => createCategory(arg)
+    (_, { arg }: { arg: CreateCateData }) => createCategory(arg)
   );
 };
 

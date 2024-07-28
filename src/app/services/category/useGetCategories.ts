@@ -1,7 +1,7 @@
 import { getCategories } from "@/lib/server/category/getCategories";
-import useSWR, { SWRResponse } from "swr";
+import useSWR from "swr";
 
-const useGetCategories = (): SWRResponse => {
+const useGetCategories = () => {
   return useSWR("user-categories", getCategories);
 };
 

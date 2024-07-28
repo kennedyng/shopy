@@ -1,4 +1,4 @@
-import { getItemDetails } from "@/lib/server/item";
+import { getItemDetails } from "@/lib/server/item/getItems";
 import useSWR, { SWRResponse } from "swr";
 
 const useGetItemDetails = (): SWRResponse => {
