@@ -1,5 +1,6 @@
-import CredentialsProvider from "next-auth/providers/credentials";
+import prisma from "@/lib/db";
 import NextAuth, { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -13,18 +14,17 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const res = await fetch(`${process.env.API_BASE_URL}/api/auth/login`, {
-          method: "POST",
-          body: JSON.stringify({
+        const user = await prisma.user.findUnique({
+          where: {
             email: credentials?.email,
-            password: credentials?.password,
-          }),
-          headers: {
-            "Content-Type": "application/json",
           },
         });
-        if (!res.ok) return null;
-        return (await res.json()) ?? null;
+
+        if (user?.password === credentials?.password) {
+          return user;
+        } else {
+          return null;
+        }
       },
     }),
   ],
