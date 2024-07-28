@@ -8,8 +8,6 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
 import useRegister from "@/app/services/useRegister";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +20,8 @@ import {
 } from "@/components/ui/form";
 import { Loader2 } from "lucide-react";
 import { ReactNode } from "react";
+import FailedUserRegrstration from "./failedUserRegrstration";
+import SuccessUserRegistered from "./successUserRegistered";
 
 //validation schema
 const FormSchema = z
@@ -62,36 +62,17 @@ const RegsiterForm = () => {
   let alertContent: ReactNode | null = null;
 
   if (!data && error) {
-    alertContent = (
-      <Alert variant="destructive">
-        <AlertTitle>Auth Failed</AlertTitle>
-        <AlertDescription>
-          Authentication failed. user account Already exists {error.message}
-        </AlertDescription>
-      </Alert>
-    );
+    alertContent = <FailedUserRegrstration message={error.message} />;
   }
 
   if (data && !error) {
-    alertContent = (
-      <Alert className="bg-green-100 text-green-900 border-green-400">
-        <AlertTitle>Successfully Account Created</AlertTitle>
-        <AlertDescription>
-          account created.{" "}
-          <b>
-            <Link href={"/user/login"}>Login To Continue</Link>
-          </b>
-        </AlertDescription>
-      </Alert>
-    );
+    alertContent = <SuccessUserRegistered />;
   }
 
   return (
     <div className=" flex  flex-col gap-2 bg-white shadow-lg w-full md:w-[450px] rounded-md top p-10">
       <div className="flex flex-row justify-center gap-[2px] items-baseline">
-        <div className="font-bold text-center">
-          Register {JSON.stringify(error.message)}
-        </div>
+        <div className="font-bold text-center">Register</div>
         <Image
           height={40}
           width={40}
