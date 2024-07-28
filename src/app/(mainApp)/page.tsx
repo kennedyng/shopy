@@ -20,12 +20,11 @@ export default async function Home() {
           />
         </div>
       </div>
-
-      {/* {[]?.map(({ id, name, items }) => (
+      {[]?.map(({ id, name, items }) => (
         <div key={id} className="my-[57px]">
           <CategoryItems title={name} items={items} />
         </div>
-      ))} */}
+      ))}
     </main>
   );
 }

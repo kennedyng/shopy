@@ -8,7 +8,6 @@ interface Props {
   open: boolean;
 }
 const ItemDetailSidebar: FC<Props> = async ({ open }) => {
-  const itemDetails = await getItemDetails();
   const dispatch = useAppDispatch();
   const handleBackClick = () => {
     dispatch(closeItemDetailsDrawer());

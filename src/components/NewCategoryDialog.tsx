@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-import { createCategory } from "@/app/services/actions";
 import {
   Dialog,
   DialogClose,
@@ -16,16 +15,16 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
+import { useSession } from "next-auth/react";
 const initialState = {
   categoryName: "",
 };
 const NewCategoryDialog = () => {
+  const { data: session } = useSession();
+
   const [categoryName, setCategoryName] = useState<string>("");
   const { mutate } = useSWRConfig();
   const handleCreateCategory = async () => {
-    const form = new FormData();
-    form.append("categoryName", categoryName);
-    const response = await createCategory(form);
     mutate(`user-categories`);
 
     setOpen(false);
