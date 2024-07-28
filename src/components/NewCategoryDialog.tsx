@@ -1,8 +1,4 @@
 "use client";
-import React, { useState } from "react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-
 import {
   Dialog,
   DialogClose,
@@ -13,24 +9,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import React from "react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { useSession } from "next-auth/react";
-import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 
+import useCreateCategory from "@/app/services/useCreateCategory";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import useCreateCategory from "@/app/services/useCreateCategory";
 
 const FormSchema = z.object({
   name: z.string().min(2, {
@@ -43,7 +40,7 @@ const NewCategoryDialog = () => {
 
   const [open, setOpen] = React.useState(false);
 
-  const { trigger, isMutating } = useCreateCategory();
+  const { trigger } = useCreateCategory();
   const { mutate } = useSWRConfig();
 
   const form = useForm<z.infer<typeof FormSchema>>({
