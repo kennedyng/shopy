@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { auth } from "@/utils/auth";
 
 export const getItemDetails = async () => {
   const session = await auth();

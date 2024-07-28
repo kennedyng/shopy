@@ -1,6 +1,6 @@
 "use server";
-import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
+import { auth } from "@/utils/auth";
 
 export const getCategories = async () => {
   const session = await auth();
