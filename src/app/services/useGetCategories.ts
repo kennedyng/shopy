@@ -1,8 +1,8 @@
-import { fetchCategories } from "@/lib/server/category";
+import { getCategories } from "@/lib/server/category/getCategories";
 import useSWR, { SWRResponse } from "swr";
 
 const useGetCategories = (): SWRResponse => {
-  return useSWR("user-categories", fetchCategories);
+  return useSWR("user-categories", getCategories);
 };
 
 export default useGetCategories;

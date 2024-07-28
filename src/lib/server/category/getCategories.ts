@@ -3,6 +3,6 @@
 import { CategoriesType } from "@/app/@types";
 import { auth } from "@/lib/auth";
 
-export const fetchCategories = async (): Promise<CategoriesType[]> => {
+export const getCategories = async (): Promise<CategoriesType[]> => {
   return await [];
 };

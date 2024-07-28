@@ -1,6 +1,5 @@
 import { MdSearch } from "react-icons/md";
 import CategoryItems from "./listComponents/CategoryItems";
-import { fetchCategories } from "@/lib/server/category";
 
 export default async function Home() {
   return (
