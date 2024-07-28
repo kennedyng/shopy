@@ -43,7 +43,6 @@ export const authOptions: NextAuthOptions = {
     },
   },
 
-  secret: process.env.JWT_SECRET as string,
   pages: {
     signIn: "/user/login",
     newUser: "/user/register",

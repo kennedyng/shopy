@@ -18,7 +18,7 @@ const AppProviders: FC<Props> = ({ children }) => {
   return (
     <SessionProvider>
       <SWRConfig value={swrOptions}>{children}</SWRConfig>
-      <Toaster expand={true} />
+      <Toaster richColors expand={true} />
     </SessionProvider>
   );
 };
