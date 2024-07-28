@@ -61,12 +61,12 @@ const RegsiterForm = () => {
 
   let alertContent: ReactNode | null = null;
 
-  if (!data && error?.status === 409) {
+  if (!data && error) {
     alertContent = (
       <Alert variant="destructive">
         <AlertTitle>Auth Failed</AlertTitle>
         <AlertDescription>
-          Authentication failed. user account Already exists
+          Authentication failed. user account Already exists {error.message}
         </AlertDescription>
       </Alert>
     );
@@ -89,7 +89,9 @@ const RegsiterForm = () => {
   return (
     <div className=" flex  flex-col gap-2 bg-white shadow-lg w-full md:w-[450px] rounded-md top p-10">
       <div className="flex flex-row justify-center gap-[2px] items-baseline">
-        <div className="font-bold text-center">Register</div>
+        <div className="font-bold text-center">
+          Register {JSON.stringify(error.message)}
+        </div>
         <Image
           height={40}
           width={40}
