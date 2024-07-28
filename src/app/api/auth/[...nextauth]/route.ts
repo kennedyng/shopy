@@ -1,4 +1,5 @@
 import prisma from "@/lib/db";
+import { UnAuthorizedExeception } from "@/lib/execeptions/UnAuthorizedExeception";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -23,7 +24,9 @@ export const authOptions: NextAuthOptions = {
         if (user?.password === credentials?.password) {
           return user;
         } else {
-          return null;
+          throw new UnAuthorizedExeception(
+            "Auth failed: Wrong User Credentials"
+          );
         }
       },
     }),

@@ -49,21 +49,18 @@ const Page = () => {
 
   const onSubmit = async ({ email, password }: z.infer<typeof FormSchema>) => {
     setLoading(true);
-    const response = await signIn("credentials", {
+    const res = await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
-    if (response?.ok) {
-      router.push("/");
+
+    if (res?.ok) {
       router.refresh();
+      router.push("/");
     } else {
+      toast.error(res?.error || "Something Went Wrong try again");
       setLoading(false);
-      if (response?.status === 401) {
-        toast.error("Auth Failed", {
-          description: "Wrong Email or Password",
-        });
-      }
     }
   };
 
