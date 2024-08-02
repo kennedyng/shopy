@@ -90,10 +90,11 @@ const RegisterBtn = () => {
   const { pending } = useFormStatus();
   return (
     <Button
+      disabled={pending}
       type="submit"
       className="h-[45px] bg-primary-main text-white rounded-lg"
     >
-      {pending ? <Loader2 className="w-5 h-5" /> : "Register"}
+      {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : "Register"}
     </Button>
   );
 };
