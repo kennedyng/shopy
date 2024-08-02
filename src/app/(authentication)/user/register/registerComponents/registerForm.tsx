@@ -13,11 +13,14 @@ import { useFormState, useFormStatus } from "react-dom";
 const initialState = {
   message: "",
   ok: false,
+  errors: {
+    email: [],
+    password: [],
+  },
 };
 const RegsiterForm = () => {
   const [state, formAction] = useFormState(registerUser, initialState);
 
-  console.log(state);
   return (
     <div className="flex flex-col gap-2 bg-white shadow-lg w-full md:w-[450px] rounded-md top p-10">
       <div className="flex flex-row justify-center gap-[2px] items-baseline">
