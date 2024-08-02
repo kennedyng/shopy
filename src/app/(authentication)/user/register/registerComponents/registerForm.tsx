@@ -2,7 +2,7 @@
 
 import { logoIcon } from "@/assets";
 import Input from "@/components/reusable/Input";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { registerUser } from "@/lib/server/auth/registerUser";
 import { Loader2 } from "lucide-react";
@@ -34,6 +34,12 @@ const RegsiterForm = () => {
         />
       </div>
       <p className="text-black text-center">Create new account</p>
+
+      {state.message && (
+        <Alert variant={state.ok ? "default" : "destructive"}>
+          <AlertTitle>{state.message}</AlertTitle>
+        </Alert>
+      )}
 
       <form action={formAction} className="flex flex-col gap-2">
         <div className="grid">
