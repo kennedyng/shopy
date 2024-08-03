@@ -26,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
+import { Button } from "./ui/button";
 
 const MENULINKS = [
   {
@@ -88,7 +89,7 @@ const Sidebar = () => {
           >
             <span
               className={`inline-block h-[45px] w-[6px] rounded-r-[4px] duration-300 ${
-                pathname === to ? "bg-primary-main" : "bg-white"
+                pathname === to ? "bg-primary" : "bg-white"
               }`}
             />
             <span className="mx-auto text-red-500">{icon}</span>
@@ -98,15 +99,15 @@ const Sidebar = () => {
 
       <HoverCard>
         <HoverCardTrigger asChild>
-          <button
+          <Button
             onClick={handleCartButton}
-            className="relative self-center h-[42px] w-[42px] bg-primary-main flex justify-center items-center rounded-full"
+            className="relative self-center h-[42px] w-[42px]  flex justify-center items-center rounded-full"
           >
             <span className="absolute -top-1 -right-1 bg-[#EB5757] text-white rounded-[4px] w-[20px] h-[19px] flex justify-center items-center font-bold">
               {totalItems}
             </span>
             <MdShoppingCart className="h-[20px] w-[20px] text-white " />
-          </button>
+          </Button>
         </HoverCardTrigger>
         <HoverCardContent align="start">
           <p>Cart Summary:</p>

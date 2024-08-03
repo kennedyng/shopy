@@ -70,10 +70,6 @@ const RegsiterForm = () => {
         <RegisterBtn />
       </form>
 
-      <Alert>
-        <AlertDescription></AlertDescription>
-      </Alert>
-
       <p>
         Already have an account?{" "}
         <Link href="/user/login">
@@ -92,7 +88,7 @@ const RegisterBtn = () => {
     <Button
       disabled={pending}
       type="submit"
-      className="h-[45px] bg-primary-main text-white rounded-lg"
+      className="h-[45px]  text-white rounded-lg"
     >
       {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : "Register"}
     </Button>
