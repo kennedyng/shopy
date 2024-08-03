@@ -1,5 +1,5 @@
 "use client";
-import { FC } from "react";
+import { FC, useTransition } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -30,6 +30,8 @@ import { toast } from "sonner";
 import useCreateItem from "@/app/services/item/useCreateItem";
 import useGetCategories from "@/app/services/category/useGetCategories";
 import { Loader2 } from "lucide-react";
+import { useFormState, useFormStatus } from "react-dom";
+import { createItem } from "@/lib/server/item/createItem";
 
 //form validation
 const FormSchema = z.object({
@@ -53,34 +55,35 @@ interface Props {
 }
 
 const NewItemSidebar: FC<Props> = ({ open }) => {
+  const [state, formAction] = useFormState(createItem, {
+    message: "",
+  });
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      name: "",
+      note: "",
+      image: "",
+      categoryId: undefined,
+    },
   });
 
   const { data: categories } = useGetCategories();
 
-  const { trigger: triggerCreateItem, isMutating: isMutatingCreateItem } =
-    useCreateItem();
   function onSubmit({
     categoryId,
     image,
     name,
     note,
   }: z.infer<typeof FormSchema>) {
-    triggerCreateItem(
-      {
-        name,
-        note,
-        imageUrl: image,
-        categoryId,
-      },
-      {
-        onSuccess: () =>
-          toast("successfully", {
-            description: `item  is created`,
-          }),
-      }
-    );
+    const formData = new FormData();
+    formData.append("categoryId", categoryId);
+    formData.append("imageUrl", image);
+    formData.append("note", note);
+    formData.append("name", name);
+
+    startTransition(() => formAction(formData));
   }
   return (
     <aside
@@ -195,10 +198,11 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
                 cancel
               </Button>
               <Button
+                disabled={isPending}
                 type="submit"
                 className=" text-white rounded-xl font-bold h-[61px] w-[87px]"
               >
-                {isMutatingCreateItem ? (
+                {isPending ? (
                   <Loader2 className="w-5 h-4 animate-spin" />
                 ) : (
                   "Save"

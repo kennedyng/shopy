@@ -1,24 +1,32 @@
 "use server";
-import { ItemType } from "@/app/@types";
 import prisma from "@/lib/db";
 import { CreateItemData } from "@/models/item/CreateItem";
+import { revalidatePath } from "next/cache";
 
-export const createItem = async ({
-  name,
-  note,
-  imageUrl,
-  categoryId,
-}: CreateItemData) => {
-  Promise<ItemType>;
+export interface FormState {
+  message: string;
+}
+export const createItem = async (prevState: FormState, data: FormData) => {
+  try {
+    const { name, note, categoryId, imageUrl } = Object.fromEntries(
+      data
+    ) as CreateItemData;
 
-  const data = await prisma.item.create({
-    data: {
-      name,
-      note,
-      imageUrl,
-      categoryId,
-    },
-  });
+    const created = await prisma.item.create({
+      data: {
+        name,
+        note,
+        categoryId,
+        imageUrl,
+      },
+    });
 
-  return data;
+    revalidatePath("/");
+    return {
+      message: "Item Created",
+    };
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed ");
+  }
 };

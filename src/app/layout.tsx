@@ -27,7 +27,7 @@ export default function RootLayout({
         <AuthProvider>
           <AppProviders>
             {children}
-            <ToastContainer icon={false} />
+            <ToastContainer closeButton icon={false} />
           </AppProviders>
         </AuthProvider>
       </body>
