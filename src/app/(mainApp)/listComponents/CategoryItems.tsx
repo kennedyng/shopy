@@ -1,16 +1,22 @@
 "use client";
 
-import React, { FC } from "react";
-import ItemCard from "./ItemCard";
-import { useDispatch } from "react-redux";
 import { openItemDetailsDrawer } from "@/redux/features/drawerSlice";
 import { addItemToCategory } from "@/redux/features/listSlice";
-import { ItemType } from "@/app/@types";
 import { useSearchParams } from "next/navigation";
+import React from "react";
+import { useDispatch } from "react-redux";
+import ItemCard from "./ItemCard";
 
+interface Item {
+  id: string;
+  name: string;
+  note: string;
+  imageUrl: string;
+  categoryId: string;
+}
 interface Props {
   title: string;
-  items: ItemType[];
+  items: Item[];
 }
 
 const CategoryItems: React.FC<Props> = ({ title, items }) => {

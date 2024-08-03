@@ -1,7 +1,12 @@
 import { MdSearch } from "react-icons/md";
 import CategoryItems from "./listComponents/CategoryItems";
+import { getCategories } from "@/lib/server/category";
 
 export default async function Home() {
+  const data = await getCategories();
+
+  console.log(data);
+
   return (
     <main>
       <div className="hidden  flex-row gap-2 justify-between lg:flex">
@@ -19,7 +24,7 @@ export default async function Home() {
           />
         </div>
       </div>
-      {[]?.map(({ id, name, items }) => (
+      {data.map(({ id, name, items }) => (
         <div key={id} className="my-[57px]">
           <CategoryItems title={name} items={items} />
         </div>
