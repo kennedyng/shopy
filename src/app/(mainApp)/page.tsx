@@ -23,7 +23,7 @@ export default async function Home() {
       </div>
       {data.map(({ id, name, items }) => (
         <div key={id} className="my-[57px]">
-          <CategoryItems title={name} items={items} />
+          <CategoryItems title={name} id={id} items={items} />
         </div>
       ))}
     </main>
