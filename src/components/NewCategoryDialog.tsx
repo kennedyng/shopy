@@ -21,16 +21,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useSession } from "next-auth/react";
-import { useSWRConfig } from "swr";
 
-import useCreateCategory from "@/app/services/category/useCreateCategory";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useFormState } from "react-dom";
 import { createCategory } from "@/lib/server/category/createCategory";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useFormState } from "react-dom";
+import { useForm } from "react-hook-form";
+
+import { z } from "zod";
+import { useSWRConfig } from "swr";
 
 const FormSchema = z.object({
   name: z.string().min(2, {
@@ -46,6 +45,8 @@ const NewCategoryDialog = () => {
   const [state, formAction] = useFormState(createCategory, initialFormState);
   const [isPending, startTransition] = useTransition();
 
+  const { mutate } = useSWRConfig();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -57,9 +58,8 @@ const NewCategoryDialog = () => {
     const formData = new FormData();
 
     formData.append("name", name);
-
     startTransition(() => formAction(formData));
-
+    mutate("user-categories");
     setOpen(false);
   }
 
