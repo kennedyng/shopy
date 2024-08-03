@@ -4,9 +4,6 @@ import { getCategories } from "@/lib/server/category";
 
 export default async function Home() {
   const data = await getCategories();
-
-  console.log(data);
-
   return (
     <main>
       <div className="hidden  flex-row gap-2 justify-between lg:flex">

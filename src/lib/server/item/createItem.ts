@@ -1,6 +1,7 @@
 "use server";
 import prisma from "@/lib/db";
 import { CreateItemData } from "@/models/item/CreateItem";
+import { revalidatePath } from "next/cache";
 
 export interface FormState {
   message: string;
@@ -20,6 +21,7 @@ export const createItem = async (prevState: FormState, data: FormData) => {
       },
     });
 
+    revalidatePath("/");
     return {
       message: "Item Created",
     };
