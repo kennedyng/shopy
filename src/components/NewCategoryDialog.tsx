@@ -24,10 +24,12 @@ import {
 import { useSession } from "next-auth/react";
 import { useSWRConfig } from "swr";
 
+import useCreateCategory from "@/app/services/category/useCreateCategory";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import useCreateCategory from "@/app/services/category/useCreateCategory";
+import { useFormState } from "react-dom";
+import { createCategory } from "@/lib/server/category/createCategory";
 
 const FormSchema = z.object({
   name: z.string().min(2, {
@@ -35,13 +37,12 @@ const FormSchema = z.object({
   }),
 });
 
+const initialFormState = {
+  ok: false,
+};
 const NewCategoryDialog = () => {
-  const { data: session } = useSession();
-
   const [open, setOpen] = React.useState(false);
-
-  const { trigger } = useCreateCategory();
-  const { mutate } = useSWRConfig();
+  const [state, formAction] = useFormState(createCategory, initialFormState);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -50,22 +51,20 @@ const NewCategoryDialog = () => {
     },
   });
 
-  function onSubmit({ name }: z.infer<typeof FormSchema>) {
-    trigger(
-      { name: name, userId: session?.user.id },
-      {
-        onSuccess() {
-          setOpen(false);
-          mutate("user-categories");
-        },
-      }
-    );
+  async function onSubmit({ name }: z.infer<typeof FormSchema>) {
+    const formData = new FormData();
+
+    formData.append("name", name);
+
+    await formAction(formData);
+
+    setOpen(false);
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button type="button" className="w-full bg-primary-main" size={"sm"}>
+        <Button type="button" className="w-full " size={"sm"}>
           new category
         </Button>
       </DialogTrigger>

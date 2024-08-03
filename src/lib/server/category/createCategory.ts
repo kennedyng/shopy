@@ -1,15 +1,30 @@
 "use server";
 
 import prisma from "@/lib/db";
-import { CreateCateData } from "@/models/category/createCateData";
+import { auth } from "@/utils/auth";
+import { ok } from "assert";
+import { revalidatePath } from "next/cache";
 
-export async function createCategory(createCategoryData: CreateCateData) {
-  const data = await prisma.category.create({
-    data: {
-      name: createCategoryData.name,
-      owner: createCategoryData.userId,
-    },
-  });
+export interface FormState {
+  ok: boolean;
+}
+export async function createCategory(prevState: FormState, data: FormData) {
+  try {
+    const { name } = Object.fromEntries(data) as { name: string };
+    const session = await auth();
 
-  return data;
+    await prisma.category.create({
+      data: {
+        name,
+        owner: session?.user.id,
+      },
+    });
+
+    revalidatePath("/");
+    return {
+      ok: true,
+    };
+  } catch (error) {
+    throw new Error("Faild to create category");
+  }
 }

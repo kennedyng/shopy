@@ -124,8 +124,7 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
                 </FormLabel>
                 <FormControl>
                   <TextArea
-                    rows={8}
-                    cols={8}
+                    cols={4}
                     className="border-[#BDBDBD] focus:border-primary-main  text-sm  "
                     {...field}
                   />
@@ -189,6 +188,7 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
           <div className="flex justify-center">
             <div className="flex flex-row gap-[18px]">
               <Button
+                variant={"secondary"}
                 className=" text-white rounded-xl font-bold h-[61px] w-[87px]"
                 type="button"
               >
@@ -196,7 +196,7 @@ const NewItemSidebar: FC<Props> = ({ open }) => {
               </Button>
               <Button
                 type="submit"
-                className="bg-primary-main text-white rounded-xl font-bold h-[61px] w-[87px]"
+                className=" text-white rounded-xl font-bold h-[61px] w-[87px]"
               >
                 {isMutatingCreateItem ? (
                   <Loader2 className="w-5 h-4 animate-spin" />
