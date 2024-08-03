@@ -137,7 +137,7 @@ const Page = () => {
             <Button
               disabled={loading}
               type="submit"
-              className="bg-primary-main rounded-md text-white py-2 px-8 font-bold w-full"
+              className="rounded-md text-white py-2 px-8 font-bold w-full"
             >
               Login{" "}
               {loading ? (
