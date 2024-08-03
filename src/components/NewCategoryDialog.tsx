@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import React from "react";
+import React, { useTransition } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
@@ -30,6 +30,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useFormState } from "react-dom";
 import { createCategory } from "@/lib/server/category/createCategory";
+import { Loader2 } from "lucide-react";
 
 const FormSchema = z.object({
   name: z.string().min(2, {
@@ -43,6 +44,7 @@ const initialFormState = {
 const NewCategoryDialog = () => {
   const [open, setOpen] = React.useState(false);
   const [state, formAction] = useFormState(createCategory, initialFormState);
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -56,7 +58,7 @@ const NewCategoryDialog = () => {
 
     formData.append("name", name);
 
-    await formAction(formData);
+    startTransition(() => formAction(formData));
 
     setOpen(false);
   }
@@ -99,8 +101,12 @@ const NewCategoryDialog = () => {
         </Form>
 
         <DialogFooter>
-          <Button type="button" onClick={() => form.handleSubmit(onSubmit)()}>
-            Save
+          <Button
+            type="button"
+            disabled={isPending}
+            onClick={() => form.handleSubmit(onSubmit)()}
+          >
+            {isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : "Save"}
           </Button>
 
           <DialogClose />

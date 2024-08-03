@@ -2,8 +2,6 @@
 
 import prisma from "@/lib/db";
 import { auth } from "@/utils/auth";
-import { ok } from "assert";
-import { revalidatePath } from "next/cache";
 
 export interface FormState {
   ok: boolean;
@@ -20,7 +18,6 @@ export async function createCategory(prevState: FormState, data: FormData) {
       },
     });
 
-    revalidatePath("/");
     return {
       ok: true,
     };
