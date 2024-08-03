@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setListName, toggleActive } from "@/redux/features/listSlice";
 import { toast } from "react-toastify";
 import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 const BottomSaveToList = () => {
   const { isActive } = useAppSelector((state) => state.listReducer);
@@ -58,19 +59,19 @@ const BottomSaveToList = () => {
     );
   }
   return (
-    <div className="absolute bottom-0 left-0 bg-white w-full h-[120px] flex justify-center items-center px-[39px]">
+    <div className="absolute bottom-2 left-0 bg-white w-full h-[120px] flex justify-center items-center px-[39px]">
       <div className="w-full relative">
         <Input
           onChange={handleOnChange}
           placeholder="Enter a name"
-          className="h-[61px] text-md font-normal text-center pr-[90px]"
+          className="absolute  h-[61px] text-md font-normal  pr-[90px]"
         />
-        <button
+        <Button
           onClick={handleSaveList}
-          className="absolute right-0 bg-primary-main text-white h-[61px] w-[87px] rounded-[12px] text-md font-bold hover:bg-yellow-400  "
+          className="absolute right-0 text-white h-[61px] w-[87px] rounded-[12px] text-md font-bold  "
         >
           Save
-        </button>
+        </Button>
       </div>
     </div>
   );
