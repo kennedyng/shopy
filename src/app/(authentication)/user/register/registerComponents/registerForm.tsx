@@ -36,12 +36,12 @@ const RegsiterForm = () => {
       <p className="text-black text-center">Create new account</p>
 
       {state.message && (
-        <Alert variant={state.ok ? "default" : "destructive"}>
+        <Alert className="my-4" variant={state.ok ? "default" : "destructive"}>
           <AlertTitle>{state.message}</AlertTitle>
         </Alert>
       )}
 
-      <form action={formAction} className="flex flex-col gap-2">
+      <form action={formAction} className="flex flex-col gap-4">
         <div className="grid">
           <label htmlFor="email">Email</label>
           <Input id="email" name="email" placeholder="email" />
