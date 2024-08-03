@@ -1,5 +1,4 @@
 import { withAuth } from "next-auth/middleware";
-import { pages } from "next/dist/build/templates/app-page";
 
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
