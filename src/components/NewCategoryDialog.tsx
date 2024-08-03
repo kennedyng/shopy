@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import React from "react";
+import React, { useTransition } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
@@ -21,13 +21,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useSession } from "next-auth/react";
-import { useSWRConfig } from "swr";
 
+import { createCategory } from "@/lib/server/category/createCategory";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
+
 import { z } from "zod";
-import useCreateCategory from "@/app/services/category/useCreateCategory";
+import { useSWRConfig } from "swr";
 
 const FormSchema = z.object({
   name: z.string().min(2, {
@@ -35,12 +37,14 @@ const FormSchema = z.object({
   }),
 });
 
+const initialFormState = {
+  ok: false,
+};
 const NewCategoryDialog = () => {
-  const { data: session } = useSession();
-
   const [open, setOpen] = React.useState(false);
+  const [state, formAction] = useFormState(createCategory, initialFormState);
+  const [isPending, startTransition] = useTransition();
 
-  const { trigger } = useCreateCategory();
   const { mutate } = useSWRConfig();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -50,22 +54,19 @@ const NewCategoryDialog = () => {
     },
   });
 
-  function onSubmit({ name }: z.infer<typeof FormSchema>) {
-    trigger(
-      { name: name, userId: session?.user.id },
-      {
-        onSuccess() {
-          setOpen(false);
-          mutate("user-categories");
-        },
-      }
-    );
+  async function onSubmit({ name }: z.infer<typeof FormSchema>) {
+    const formData = new FormData();
+
+    formData.append("name", name);
+    startTransition(() => formAction(formData));
+    mutate("user-categories");
+    setOpen(false);
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button type="button" className="w-full bg-primary-main" size={"sm"}>
+        <Button type="button" className="w-full " size={"sm"}>
           new category
         </Button>
       </DialogTrigger>
@@ -100,8 +101,12 @@ const NewCategoryDialog = () => {
         </Form>
 
         <DialogFooter>
-          <Button type="button" onClick={() => form.handleSubmit(onSubmit)()}>
-            Save
+          <Button
+            type="button"
+            disabled={isPending}
+            onClick={() => form.handleSubmit(onSubmit)()}
+          >
+            {isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : "Save"}
           </Button>
 
           <DialogClose />
