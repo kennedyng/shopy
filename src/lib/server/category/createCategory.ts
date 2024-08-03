@@ -2,8 +2,6 @@
 
 import prisma from "@/lib/db";
 import { auth } from "@/utils/auth";
-import { revalidatePath } from "next/cache";
-import { getCategories } from "./getCategories";
 
 export interface FormState {
   ok: boolean;
