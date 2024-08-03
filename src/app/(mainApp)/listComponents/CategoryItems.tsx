@@ -16,6 +16,7 @@ interface Item {
 }
 interface Props {
   title: string;
+  id: string;
   items: Item[];
 }
 
@@ -31,19 +32,19 @@ const CategoryItems: React.FC<Props> = ({ title, items }) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("selected_item", itemId);
     window.history.pushState(null, "", `?${params.toString()}`);
-
     dispatch(openItemDetailsDrawer());
   };
 
-  const handleAddItem = () => {
-    console.log("add clicked");
-
+  const handleAddItem = (
+    { categoryId, categoryName }: { categoryId: string; categoryName: string },
+    ItemName: string
+  ) => {
     dispatch(
       addItemToCategory({
-        categoryId: "4PqlIjxjDeI1yrPB6uKmfdd",
-        categoryName: "testing one beands",
+        categoryId,
+        categoryName,
         item: {
-          name: "adding",
+          name: ItemName,
           pics: 1,
           isCancelled: false,
         },
@@ -59,7 +60,9 @@ const CategoryItems: React.FC<Props> = ({ title, items }) => {
           <ItemCard
             key={id}
             onLabelClick={() => handleLabelClick(String(id))}
-            onAddClick={handleAddItem}
+            onAddClick={() =>
+              handleAddItem({ categoryName: title, categoryId: id }, name)
+            }
             label={name}
           />
         ))}
